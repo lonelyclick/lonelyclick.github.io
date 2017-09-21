@@ -6,7 +6,8 @@ const deployLocation = 'examples'
 
 module.exports = {
   entry: {
-    loadingbar: './examples/src/loadingbar/index.jsx'
+    loadingbar: './examples/src/loadingbar/index.jsx',
+    dialognative: './examples/src/dialognative/index.js',
   },
   color: true,
   progress: true,

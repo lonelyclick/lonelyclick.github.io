@@ -62,73 +62,107 @@
 
 	var _reactDom = __webpack_require__(37);
 
-	var _reactDom2 = _interopRequireDefault(_reactDom);
+	__webpack_require__(184);
 
-	var _reactLoadingBar = __webpack_require__(196);
+	var _reactDialogNative = __webpack_require__(188);
 
-	var _reactLoadingBar2 = _interopRequireDefault(_reactLoadingBar);
+	var _reactDialogNative2 = _interopRequireDefault(_reactDialogNative);
 
-	__webpack_require__(197);
+	__webpack_require__(194);
 
-	var _ExampleCss = __webpack_require__(199);
+	var Example = (function (_Component) {
+	  _inherits(Example, _Component);
 
-	var _ExampleCss2 = _interopRequireDefault(_ExampleCss);
-
-	var LoadingExample = (function (_Component) {
-	  _inherits(LoadingExample, _Component);
-
-	  function LoadingExample() {
+	  function Example() {
 	    var _this = this;
 
-	    _classCallCheck(this, LoadingExample);
+	    _classCallCheck(this, Example);
 
-	    _get(Object.getPrototypeOf(LoadingExample.prototype), 'constructor', this).apply(this, arguments);
+	    _get(Object.getPrototypeOf(Example.prototype), 'constructor', this).apply(this, arguments);
 
 	    this.state = {
-	      show: false
+	      dialogOpen1: true,
+	      dialogOpen2: false
 	    };
 
-	    this.onShow = function () {
-	      _this.setState({ show: true });
+	    this.handleClose = function () {
+	      _this.setState({
+	        dialogOpen1: false
+	      });
 	    };
 
-	    this.onHide = function () {
-	      _this.setState({ show: false });
+	    this.handleClose2 = function () {
+	      _this.setState({
+	        dialogOpen2: false
+	      });
+	    };
+
+	    this.handleOpen = function () {
+	      _this.setState({
+	        dialogOpen1: true
+	      });
+	    };
+
+	    this.handleOpen2 = function () {
+	      _this.setState({
+	        dialogOpen2: true
+	      });
 	    };
 	  }
 
-	  _createClass(LoadingExample, [{
+	  _createClass(Example, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      console.log('do mounted');
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _state = this.state;
+	      var dialogOpen1 = _state.dialogOpen1;
+	      var dialogOpen2 = _state.dialogOpen2;
+
 	      return _react2['default'].createElement(
 	        'div',
-	        { className: _ExampleCss2['default'].exampleComponent },
-	        _react2['default'].createElement(_reactLoadingBar2['default'], {
-	          show: this.state.show,
-	          color: 'red'
-	        }),
+	        null,
 	        _react2['default'].createElement(
 	          'button',
-	          {
-	            type: 'button',
-	            onClick: this.onShow },
-	          'show'
+	          { type: 'button', onClick: this.handleOpen },
+	          'open 1'
 	        ),
 	        _react2['default'].createElement(
-	          'button',
-	          {
-	            type: 'button',
-	            onClick: this.onHide },
-	          'hide'
+	          _reactDialogNative2['default'],
+	          { open: dialogOpen1, onClose: this.handleClose },
+	          'This is Dialog 1',
+	          _react2['default'].createElement(
+	            'button',
+	            { type: 'button', onClick: this.handleClose },
+	            'close'
+	          ),
+	          _react2['default'].createElement(
+	            'button',
+	            { type: 'button', onClick: this.handleOpen2 },
+	            'open 2'
+	          )
+	        ),
+	        _react2['default'].createElement(
+	          _reactDialogNative2['default'],
+	          { open: dialogOpen2, onClose: this.handleClose2 },
+	          'This is Dialog 2',
+	          _react2['default'].createElement(
+	            'button',
+	            { type: 'button', onClick: this.handleClose2 },
+	            'close'
+	          )
 	        )
 	      );
 	    }
 	  }]);
 
-	  return LoadingExample;
+	  return Example;
 	})(_react.Component);
 
-	_reactDom2['default'].render(_react2['default'].createElement(LoadingExample, null), document.getElementById('loadingbar'));
+	(0, _reactDom.render)(_react2['default'].createElement(Example, null), document.getElementById('dialognative'));
 
 /***/ }),
 /* 1 */
@@ -22255,8 +22289,46 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 184 */,
-/* 185 */,
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(185);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(187)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../css-loader/index.js!./dialog-polyfill.css", function() {
+				var newContent = require("!!../css-loader/index.js!./dialog-polyfill.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 185 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(186)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "dialog {\n  position: absolute;\n  left: 0; right: 0;\n  width: -moz-fit-content;\n  width: -webkit-fit-content;\n  width: fit-content;\n  height: -moz-fit-content;\n  height: -webkit-fit-content;\n  height: fit-content;\n  margin: auto;\n  border: solid;\n  padding: 1em;\n  background: white;\n  color: black;\n  display: block;\n}\n\ndialog:not([open]) {\n  display: none;\n}\n\ndialog + .backdrop {\n  position: fixed;\n  top: 0; right: 0; bottom: 0; left: 0;\n  background: rgba(0,0,0,0.1);\n}\n\n._dialog_overlay {\n  position: fixed;\n  top: 0; right: 0; bottom: 0; left: 0;\n}\n\ndialog.fixed {\n  position: fixed;\n  top: 50%;\n  transform: translate(0, -50%);\n}", ""]);
+
+	// exports
+
+
+/***/ }),
 /* 186 */
 /***/ (function(module, exports) {
 
@@ -22565,2336 +22637,1142 @@
 
 
 /***/ }),
-/* 188 */,
-/* 189 */,
-/* 190 */,
-/* 191 */,
-/* 192 */,
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
 		if(true)
-			module.exports = factory(__webpack_require__(1));
+			module.exports = factory(__webpack_require__(1), __webpack_require__(189), __webpack_require__(191));
 		else if(typeof define === 'function' && define.amd)
-			define(["react"], factory);
+			define(["react", "prop-types", "dialog-polyfill"], factory);
 		else if(typeof exports === 'object')
-			exports["ReactLoadingBar"] = factory(require("react"));
+			exports["ReactDialogNative"] = factory(require("react"), require("prop-types"), require("dialog-polyfill"));
 		else
-			root["ReactLoadingBar"] = factory(root["React"]);
-	})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
+			root["ReactDialogNative"] = factory(root["React"], root["PropTypes"], root["dialogPolyfill"]);
+	})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__) {
 	return /******/ (function(modules) { // webpackBootstrap
 	/******/ 	// The module cache
 	/******/ 	var installedModules = {};
-
+	/******/
 	/******/ 	// The require function
 	/******/ 	function __webpack_require__(moduleId) {
-
+	/******/
 	/******/ 		// Check if module is in cache
-	/******/ 		if(installedModules[moduleId])
+	/******/ 		if(installedModules[moduleId]) {
 	/******/ 			return installedModules[moduleId].exports;
-
+	/******/ 		}
 	/******/ 		// Create a new module (and put it into the cache)
 	/******/ 		var module = installedModules[moduleId] = {
-	/******/ 			exports: {},
-	/******/ 			id: moduleId,
-	/******/ 			loaded: false
+	/******/ 			i: moduleId,
+	/******/ 			l: false,
+	/******/ 			exports: {}
 	/******/ 		};
-
+	/******/
 	/******/ 		// Execute the module function
 	/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+	/******/
 	/******/ 		// Flag the module as loaded
-	/******/ 		module.loaded = true;
-
+	/******/ 		module.l = true;
+	/******/
 	/******/ 		// Return the exports of the module
 	/******/ 		return module.exports;
 	/******/ 	}
-
-
+	/******/
+	/******/
 	/******/ 	// expose the modules object (__webpack_modules__)
 	/******/ 	__webpack_require__.m = modules;
-
+	/******/
 	/******/ 	// expose the module cache
 	/******/ 	__webpack_require__.c = installedModules;
-
+	/******/
+	/******/ 	// define getter function for harmony exports
+	/******/ 	__webpack_require__.d = function(exports, name, getter) {
+	/******/ 		if(!__webpack_require__.o(exports, name)) {
+	/******/ 			Object.defineProperty(exports, name, {
+	/******/ 				configurable: false,
+	/******/ 				enumerable: true,
+	/******/ 				get: getter
+	/******/ 			});
+	/******/ 		}
+	/******/ 	};
+	/******/
+	/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+	/******/ 	__webpack_require__.n = function(module) {
+	/******/ 		var getter = module && module.__esModule ?
+	/******/ 			function getDefault() { return module['default']; } :
+	/******/ 			function getModuleExports() { return module; };
+	/******/ 		__webpack_require__.d(getter, 'a', getter);
+	/******/ 		return getter;
+	/******/ 	};
+	/******/
+	/******/ 	// Object.prototype.hasOwnProperty.call
+	/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+	/******/
 	/******/ 	// __webpack_public_path__
 	/******/ 	__webpack_require__.p = "";
-
+	/******/
 	/******/ 	// Load entry module and return exports
-	/******/ 	return __webpack_require__(0);
+	/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 	/******/ })
 	/************************************************************************/
 	/******/ ([
 	/* 0 */
-	/***/ (function(module, exports, __webpack_require__) {
+	/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-		'use strict';
+	"use strict";
+	Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+	/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+	/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+	/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
+	/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+	/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_dialog_polyfill__ = __webpack_require__(3);
+	/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_dialog_polyfill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_dialog_polyfill__);
+	/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Dialog_css__ = __webpack_require__(4);
+	/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Dialog_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Dialog_css__);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-		Object.defineProperty(exports, '__esModule', {
-		  value: true
-		});
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-		var _Loading = __webpack_require__(1);
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-		var _Loading2 = _interopRequireDefault(_Loading);
 
-		exports['default'] = _Loading2['default'];
-		module.exports = exports['default'];
+
+
+
+
+
+	var Dialog = function (_Component) {
+	  _inherits(Dialog, _Component);
+
+	  function Dialog() {
+	    var _ref;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, Dialog);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Dialog.__proto__ || Object.getPrototypeOf(Dialog)).call.apply(_ref, [this].concat(args))), _this), _this.handleClickDialog = function (event) {
+	      var _this$props = _this.props,
+	          closeBackdropOnClick = _this$props.closeBackdropOnClick,
+	          onClose = _this$props.onClose;
+
+	      if (!closeBackdropOnClick) return;
+	      var rect = event.target.getBoundingClientRect();
+	      var inDialog = rect.top <= event.clientY && event.clientY <= rect.top + rect.height && rect.left <= event.clientX && event.clientX <= rect.left + rect.width;
+
+	      if (!inDialog) {
+	        onClose();
+	      }
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+
+	  _createClass(Dialog, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      __WEBPACK_IMPORTED_MODULE_2_dialog_polyfill___default.a.registerDialog(this.dialogRef);
+	      this.handleModal(this.props.open);
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (this.props.open !== nextProps.open) {
+	        this.handleModal(nextProps.open);
+	      }
+	    }
+	  }, {
+	    key: 'handleModal',
+	    value: function handleModal(open) {
+	      if (open) {
+	        this.dialogRef.showModal();
+	      } else if (this.dialogRef.getAttribute('open') !== null) {
+	        this.dialogRef.close();
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var _props = this.props,
+	          className = _props.className,
+	          children = _props.children;
+
+
+	      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+	        'dialog',
+	        {
+	          className: 'Dialog ' + className,
+	          ref: function ref(dialog) {
+	            _this2.dialogRef = dialog;
+	          },
+	          onClick: this.handleClickDialog
+	        },
+	        children
+	      );
+	    }
+	  }]);
+
+	  return Dialog;
+	}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+	Dialog.propTypes = {
+	  open: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
+	  className: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+	  children: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.node.isRequired,
+	  closeBackdropOnClick: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
+	  onClose: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired
+	};
+	Dialog.defaultProps = {
+	  open: false,
+	  closeBackdropOnClick: true,
+	  className: ''
+	};
+
+
+	/* harmony default export */ __webpack_exports__["default"] = (Dialog);
 
 	/***/ }),
 	/* 1 */
-	/***/ (function(module, exports, __webpack_require__) {
+	/***/ (function(module, exports) {
 
-		'use strict';
-
-		Object.defineProperty(exports, '__esModule', {
-		  value: true
-		});
-
-		var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-		var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-		function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-		var _react = __webpack_require__(2);
-
-		var _react2 = _interopRequireDefault(_react);
-
-		var _propTypes = __webpack_require__(3);
-
-		var _propTypes2 = _interopRequireDefault(_propTypes);
-
-		var _shallowequal = __webpack_require__(12);
-
-		var _shallowequal2 = _interopRequireDefault(_shallowequal);
-
-		var _LoadingCss = __webpack_require__(17);
-
-		var _LoadingCss2 = _interopRequireDefault(_LoadingCss);
-
-		var Loading = (function (_Component) {
-		  _inherits(Loading, _Component);
-
-		  function Loading() {
-		    _classCallCheck(this, Loading);
-
-		    _get(Object.getPrototypeOf(Loading.prototype), 'constructor', this).apply(this, arguments);
-
-		    this.state = {
-		      size: 0,
-		      disappearDelayHide: false, // when dispappear, first transition then display none
-		      percent: 0,
-		      appearDelayWidth: 0 // when appear, first display block then transition width
-		    };
-		  }
-
-		  _createClass(Loading, [{
-		    key: 'componentWillReceiveProps',
-		    value: function componentWillReceiveProps(nextProps) {
-		      var show = nextProps.show;
-		      var change = nextProps.change;
-
-		      if (!change) {
-		        return;
-		      }
-		      if (show) {
-		        this.show();
-		      } else {
-		        this.hide();
-		      }
-		    }
-		  }, {
-		    key: 'shouldComponentUpdate',
-		    value: function shouldComponentUpdate(nextProps, nextState) {
-		      return nextProps.change || !(0, _shallowequal2['default'])(nextState, this.state);
-		    }
-		  }, {
-		    key: 'show',
-		    value: function show() {
-		      var _this = this;
-
-		      var _state = this.state;
-		      var size = _state.size;
-		      var percent = _state.percent;
-
-		      var appearDelayWidth = size === 0;
-		      percent = this.calculatePercent(percent);
-
-		      this.setState({
-		        size: ++size,
-		        appearDelayWidth: appearDelayWidth,
-		        percent: percent
-		      });
-
-		      if (appearDelayWidth) {
-		        setTimeout(function () {
-		          _this.setState({
-		            appearDelayWidth: false
-		          });
-		        });
-		      }
-		    }
-		  }, {
-		    key: 'hide',
-		    value: function hide() {
-		      var _this2 = this;
-
-		      var size = this.state.size;
-
-		      if (--size < 0) {
-		        this.setState({ size: 0 });
-		        return;
-		      }
-
-		      this.setState({
-		        size: 0,
-		        disappearDelayHide: true,
-		        percent: 1
-		      });
-
-		      setTimeout(function () {
-		        _this2.setState({
-		          disappearDelayHide: false,
-		          percent: 0
-		        });
-		      }, 500);
-		    }
-		  }, {
-		    key: 'getBarStyle',
-		    value: function getBarStyle() {
-		      var _state2 = this.state;
-		      var disappearDelayHide = _state2.disappearDelayHide;
-		      var appearDelayWidth = _state2.appearDelayWidth;
-		      var percent = _state2.percent;
-		      var color = this.props.color;
-
-		      return {
-		        background: color,
-		        width: appearDelayWidth ? 0 : percent * 100 + '%',
-		        display: disappearDelayHide || percent > 0 ? 'block' : 'none'
-		      };
-		    }
-		  }, {
-		    key: 'getSpinnerStyle',
-		    value: function getSpinnerStyle() {
-		      var size = this.state.size;
-		      var color = this.props.color;
-
-		      return {
-		        display: size > 0 ? 'block' : 'none',
-		        borderColor: color
-		      };
-		    }
-		  }, {
-		    key: 'calculatePercent',
-		    value: function calculatePercent(percent) {
-		      percent = percent || 0;
-		      var random = 0;
-
-		      if (percent >= 0 && percent < 0.25) {
-		        random = (Math.random() * (5 - 3 + 1) + 10) / 100;
-		      } else if (percent >= 0.25 && percent < 0.65) {
-		        random = Math.random() * 3 / 100;
-		      } else if (percent >= 0.65 && percent < 0.9) {
-		        random = Math.random() * 2 / 100;
-		      } else if (percent >= 0.9 && percent < 0.99) {
-		        random = 0.005;
-		      } else {
-		        random = 0;
-		      }
-
-		      percent += random;
-		      return percent;
-		    }
-		  }, {
-		    key: 'render',
-		    value: function render() {
-		      return _react2['default'].createElement(
-		        'div',
-		        null,
-		        _react2['default'].createElement(
-		          'div',
-		          { className: _LoadingCss2['default'].loading },
-		          _react2['default'].createElement(
-		            'div',
-		            {
-		              className: _LoadingCss2['default'].bar,
-		              style: this.getBarStyle() },
-		            _react2['default'].createElement('div', { className: _LoadingCss2['default'].peg })
-		          )
-		        ),
-		        this.props.showSpinner && _react2['default'].createElement(
-		          'div',
-		          { className: _LoadingCss2['default'].spinner },
-		          _react2['default'].createElement('div', {
-		            className: _LoadingCss2['default'].icon,
-		            style: this.getSpinnerStyle()
-		          })
-		        )
-		      );
-		    }
-		  }], [{
-		    key: 'propTypes',
-		    value: {
-		      change: _propTypes2['default'].bool,
-		      color: _propTypes2['default'].string.isRequired,
-		      show: _propTypes2['default'].bool,
-		      showSpinner: _propTypes2['default'].bool
-		    },
-		    enumerable: true
-		  }, {
-		    key: 'defaultProps',
-		    value: {
-		      change: true,
-		      showSpinner: true
-		    },
-		    enumerable: true
-		  }]);
-
-		  return Loading;
-		})(_react.Component);
-
-		exports['default'] = Loading;
-		module.exports = exports['default'];
+	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
 	/***/ }),
 	/* 2 */
 	/***/ (function(module, exports) {
 
-		module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 	/***/ }),
 	/* 3 */
-	/***/ (function(module, exports, __webpack_require__) {
+	/***/ (function(module, exports) {
 
-		/* WEBPACK VAR INJECTION */(function(process) {/**
-		 * Copyright 2013-present, Facebook, Inc.
-		 * All rights reserved.
-		 *
-		 * This source code is licensed under the BSD-style license found in the
-		 * LICENSE file in the root directory of this source tree. An additional grant
-		 * of patent rights can be found in the PATENTS file in the same directory.
-		 */
-
-		if (process.env.NODE_ENV !== 'production') {
-		  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-		    Symbol.for &&
-		    Symbol.for('react.element')) ||
-		    0xeac7;
-
-		  var isValidElement = function(object) {
-		    return typeof object === 'object' &&
-		      object !== null &&
-		      object.$$typeof === REACT_ELEMENT_TYPE;
-		  };
-
-		  // By explicitly using `prop-types` you are opting into new development behavior.
-		  // http://fb.me/prop-types-in-prod
-		  var throwOnDirectAccess = true;
-		  module.exports = __webpack_require__(5)(isValidElement, throwOnDirectAccess);
-		} else {
-		  // By explicitly using `prop-types` you are opting into new production behavior.
-		  // http://fb.me/prop-types-in-prod
-		  module.exports = __webpack_require__(11)();
-		}
-
-		/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+	module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
 
 	/***/ }),
 	/* 4 */
 	/***/ (function(module, exports) {
 
-		// shim for using process in browser
-		var process = module.exports = {};
-
-		// cached from whatever global is present so that test runners that stub it
-		// don't break things.  But we need to wrap it in a try catch in case it is
-		// wrapped in strict mode code which doesn't define any globals.  It's inside a
-		// function because try/catches deoptimize in certain engines.
-
-		var cachedSetTimeout;
-		var cachedClearTimeout;
-
-		function defaultSetTimout() {
-		    throw new Error('setTimeout has not been defined');
-		}
-		function defaultClearTimeout () {
-		    throw new Error('clearTimeout has not been defined');
-		}
-		(function () {
-		    try {
-		        if (typeof setTimeout === 'function') {
-		            cachedSetTimeout = setTimeout;
-		        } else {
-		            cachedSetTimeout = defaultSetTimout;
-		        }
-		    } catch (e) {
-		        cachedSetTimeout = defaultSetTimout;
-		    }
-		    try {
-		        if (typeof clearTimeout === 'function') {
-		            cachedClearTimeout = clearTimeout;
-		        } else {
-		            cachedClearTimeout = defaultClearTimeout;
-		        }
-		    } catch (e) {
-		        cachedClearTimeout = defaultClearTimeout;
-		    }
-		} ())
-		function runTimeout(fun) {
-		    if (cachedSetTimeout === setTimeout) {
-		        //normal enviroments in sane situations
-		        return setTimeout(fun, 0);
-		    }
-		    // if setTimeout wasn't available but was latter defined
-		    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-		        cachedSetTimeout = setTimeout;
-		        return setTimeout(fun, 0);
-		    }
-		    try {
-		        // when when somebody has screwed with setTimeout but no I.E. maddness
-		        return cachedSetTimeout(fun, 0);
-		    } catch(e){
-		        try {
-		            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-		            return cachedSetTimeout.call(null, fun, 0);
-		        } catch(e){
-		            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-		            return cachedSetTimeout.call(this, fun, 0);
-		        }
-		    }
-
-
-		}
-		function runClearTimeout(marker) {
-		    if (cachedClearTimeout === clearTimeout) {
-		        //normal enviroments in sane situations
-		        return clearTimeout(marker);
-		    }
-		    // if clearTimeout wasn't available but was latter defined
-		    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-		        cachedClearTimeout = clearTimeout;
-		        return clearTimeout(marker);
-		    }
-		    try {
-		        // when when somebody has screwed with setTimeout but no I.E. maddness
-		        return cachedClearTimeout(marker);
-		    } catch (e){
-		        try {
-		            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-		            return cachedClearTimeout.call(null, marker);
-		        } catch (e){
-		            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-		            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-		            return cachedClearTimeout.call(this, marker);
-		        }
-		    }
-
-
-
-		}
-		var queue = [];
-		var draining = false;
-		var currentQueue;
-		var queueIndex = -1;
-
-		function cleanUpNextTick() {
-		    if (!draining || !currentQueue) {
-		        return;
-		    }
-		    draining = false;
-		    if (currentQueue.length) {
-		        queue = currentQueue.concat(queue);
-		    } else {
-		        queueIndex = -1;
-		    }
-		    if (queue.length) {
-		        drainQueue();
-		    }
-		}
-
-		function drainQueue() {
-		    if (draining) {
-		        return;
-		    }
-		    var timeout = runTimeout(cleanUpNextTick);
-		    draining = true;
-
-		    var len = queue.length;
-		    while(len) {
-		        currentQueue = queue;
-		        queue = [];
-		        while (++queueIndex < len) {
-		            if (currentQueue) {
-		                currentQueue[queueIndex].run();
-		            }
-		        }
-		        queueIndex = -1;
-		        len = queue.length;
-		    }
-		    currentQueue = null;
-		    draining = false;
-		    runClearTimeout(timeout);
-		}
-
-		process.nextTick = function (fun) {
-		    var args = new Array(arguments.length - 1);
-		    if (arguments.length > 1) {
-		        for (var i = 1; i < arguments.length; i++) {
-		            args[i - 1] = arguments[i];
-		        }
-		    }
-		    queue.push(new Item(fun, args));
-		    if (queue.length === 1 && !draining) {
-		        runTimeout(drainQueue);
-		    }
-		};
-
-		// v8 likes predictible objects
-		function Item(fun, array) {
-		    this.fun = fun;
-		    this.array = array;
-		}
-		Item.prototype.run = function () {
-		    this.fun.apply(null, this.array);
-		};
-		process.title = 'browser';
-		process.browser = true;
-		process.env = {};
-		process.argv = [];
-		process.version = ''; // empty string to avoid regexp issues
-		process.versions = {};
-
-		function noop() {}
-
-		process.on = noop;
-		process.addListener = noop;
-		process.once = noop;
-		process.off = noop;
-		process.removeListener = noop;
-		process.removeAllListeners = noop;
-		process.emit = noop;
-
-		process.binding = function (name) {
-		    throw new Error('process.binding is not supported');
-		};
-
-		process.cwd = function () { return '/' };
-		process.chdir = function (dir) {
-		    throw new Error('process.chdir is not supported');
-		};
-		process.umask = function() { return 0; };
-
-
-	/***/ }),
-	/* 5 */
-	/***/ (function(module, exports, __webpack_require__) {
-
-		/* WEBPACK VAR INJECTION */(function(process) {/**
-		 * Copyright 2013-present, Facebook, Inc.
-		 * All rights reserved.
-		 *
-		 * This source code is licensed under the BSD-style license found in the
-		 * LICENSE file in the root directory of this source tree. An additional grant
-		 * of patent rights can be found in the PATENTS file in the same directory.
-		 */
-
-		'use strict';
-
-		var emptyFunction = __webpack_require__(6);
-		var invariant = __webpack_require__(7);
-		var warning = __webpack_require__(8);
-
-		var ReactPropTypesSecret = __webpack_require__(9);
-		var checkPropTypes = __webpack_require__(10);
-
-		module.exports = function(isValidElement, throwOnDirectAccess) {
-		  /* global Symbol */
-		  var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
-		  var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
-
-		  /**
-		   * Returns the iterator method function contained on the iterable object.
-		   *
-		   * Be sure to invoke the function with the iterable as context:
-		   *
-		   *     var iteratorFn = getIteratorFn(myIterable);
-		   *     if (iteratorFn) {
-		   *       var iterator = iteratorFn.call(myIterable);
-		   *       ...
-		   *     }
-		   *
-		   * @param {?object} maybeIterable
-		   * @return {?function}
-		   */
-		  function getIteratorFn(maybeIterable) {
-		    var iteratorFn = maybeIterable && (ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL]);
-		    if (typeof iteratorFn === 'function') {
-		      return iteratorFn;
-		    }
-		  }
-
-		  /**
-		   * Collection of methods that allow declaration and validation of props that are
-		   * supplied to React components. Example usage:
-		   *
-		   *   var Props = require('ReactPropTypes');
-		   *   var MyArticle = React.createClass({
-		   *     propTypes: {
-		   *       // An optional string prop named "description".
-		   *       description: Props.string,
-		   *
-		   *       // A required enum prop named "category".
-		   *       category: Props.oneOf(['News','Photos']).isRequired,
-		   *
-		   *       // A prop named "dialog" that requires an instance of Dialog.
-		   *       dialog: Props.instanceOf(Dialog).isRequired
-		   *     },
-		   *     render: function() { ... }
-		   *   });
-		   *
-		   * A more formal specification of how these methods are used:
-		   *
-		   *   type := array|bool|func|object|number|string|oneOf([...])|instanceOf(...)
-		   *   decl := ReactPropTypes.{type}(.isRequired)?
-		   *
-		   * Each and every declaration produces a function with the same signature. This
-		   * allows the creation of custom validation functions. For example:
-		   *
-		   *  var MyLink = React.createClass({
-		   *    propTypes: {
-		   *      // An optional string or URI prop named "href".
-		   *      href: function(props, propName, componentName) {
-		   *        var propValue = props[propName];
-		   *        if (propValue != null && typeof propValue !== 'string' &&
-		   *            !(propValue instanceof URI)) {
-		   *          return new Error(
-		   *            'Expected a string or an URI for ' + propName + ' in ' +
-		   *            componentName
-		   *          );
-		   *        }
-		   *      }
-		   *    },
-		   *    render: function() {...}
-		   *  });
-		   *
-		   * @internal
-		   */
-
-		  var ANONYMOUS = '<<anonymous>>';
-
-		  // Important!
-		  // Keep this list in sync with production version in `./factoryWithThrowingShims.js`.
-		  var ReactPropTypes = {
-		    array: createPrimitiveTypeChecker('array'),
-		    bool: createPrimitiveTypeChecker('boolean'),
-		    func: createPrimitiveTypeChecker('function'),
-		    number: createPrimitiveTypeChecker('number'),
-		    object: createPrimitiveTypeChecker('object'),
-		    string: createPrimitiveTypeChecker('string'),
-		    symbol: createPrimitiveTypeChecker('symbol'),
-
-		    any: createAnyTypeChecker(),
-		    arrayOf: createArrayOfTypeChecker,
-		    element: createElementTypeChecker(),
-		    instanceOf: createInstanceTypeChecker,
-		    node: createNodeChecker(),
-		    objectOf: createObjectOfTypeChecker,
-		    oneOf: createEnumTypeChecker,
-		    oneOfType: createUnionTypeChecker,
-		    shape: createShapeTypeChecker
-		  };
-
-		  /**
-		   * inlined Object.is polyfill to avoid requiring consumers ship their own
-		   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
-		   */
-		  /*eslint-disable no-self-compare*/
-		  function is(x, y) {
-		    // SameValue algorithm
-		    if (x === y) {
-		      // Steps 1-5, 7-10
-		      // Steps 6.b-6.e: +0 != -0
-		      return x !== 0 || 1 / x === 1 / y;
-		    } else {
-		      // Step 6.a: NaN == NaN
-		      return x !== x && y !== y;
-		    }
-		  }
-		  /*eslint-enable no-self-compare*/
-
-		  /**
-		   * We use an Error-like object for backward compatibility as people may call
-		   * PropTypes directly and inspect their output. However, we don't use real
-		   * Errors anymore. We don't inspect their stack anyway, and creating them
-		   * is prohibitively expensive if they are created too often, such as what
-		   * happens in oneOfType() for any type before the one that matched.
-		   */
-		  function PropTypeError(message) {
-		    this.message = message;
-		    this.stack = '';
-		  }
-		  // Make `instanceof Error` still work for returned errors.
-		  PropTypeError.prototype = Error.prototype;
-
-		  function createChainableTypeChecker(validate) {
-		    if (process.env.NODE_ENV !== 'production') {
-		      var manualPropTypeCallCache = {};
-		      var manualPropTypeWarningCount = 0;
-		    }
-		    function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
-		      componentName = componentName || ANONYMOUS;
-		      propFullName = propFullName || propName;
-
-		      if (secret !== ReactPropTypesSecret) {
-		        if (throwOnDirectAccess) {
-		          // New behavior only for users of `prop-types` package
-		          invariant(
-		            false,
-		            'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-		            'Use `PropTypes.checkPropTypes()` to call them. ' +
-		            'Read more at http://fb.me/use-check-prop-types'
-		          );
-		        } else if (process.env.NODE_ENV !== 'production' && typeof console !== 'undefined') {
-		          // Old behavior for people using React.PropTypes
-		          var cacheKey = componentName + ':' + propName;
-		          if (
-		            !manualPropTypeCallCache[cacheKey] &&
-		            // Avoid spamming the console because they are often not actionable except for lib authors
-		            manualPropTypeWarningCount < 3
-		          ) {
-		            warning(
-		              false,
-		              'You are manually calling a React.PropTypes validation ' +
-		              'function for the `%s` prop on `%s`. This is deprecated ' +
-		              'and will throw in the standalone `prop-types` package. ' +
-		              'You may be seeing this warning due to a third-party PropTypes ' +
-		              'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.',
-		              propFullName,
-		              componentName
-		            );
-		            manualPropTypeCallCache[cacheKey] = true;
-		            manualPropTypeWarningCount++;
-		          }
-		        }
-		      }
-		      if (props[propName] == null) {
-		        if (isRequired) {
-		          if (props[propName] === null) {
-		            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
-		          }
-		          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
-		        }
-		        return null;
-		      } else {
-		        return validate(props, propName, componentName, location, propFullName);
-		      }
-		    }
-
-		    var chainedCheckType = checkType.bind(null, false);
-		    chainedCheckType.isRequired = checkType.bind(null, true);
-
-		    return chainedCheckType;
-		  }
-
-		  function createPrimitiveTypeChecker(expectedType) {
-		    function validate(props, propName, componentName, location, propFullName, secret) {
-		      var propValue = props[propName];
-		      var propType = getPropType(propValue);
-		      if (propType !== expectedType) {
-		        // `propValue` being instance of, say, date/regexp, pass the 'object'
-		        // check, but we can offer a more precise error message here rather than
-		        // 'of type `object`'.
-		        var preciseType = getPreciseType(propValue);
-
-		        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`, expected ') + ('`' + expectedType + '`.'));
-		      }
-		      return null;
-		    }
-		    return createChainableTypeChecker(validate);
-		  }
-
-		  function createAnyTypeChecker() {
-		    return createChainableTypeChecker(emptyFunction.thatReturnsNull);
-		  }
-
-		  function createArrayOfTypeChecker(typeChecker) {
-		    function validate(props, propName, componentName, location, propFullName) {
-		      if (typeof typeChecker !== 'function') {
-		        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
-		      }
-		      var propValue = props[propName];
-		      if (!Array.isArray(propValue)) {
-		        var propType = getPropType(propValue);
-		        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an array.'));
-		      }
-		      for (var i = 0; i < propValue.length; i++) {
-		        var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
-		        if (error instanceof Error) {
-		          return error;
-		        }
-		      }
-		      return null;
-		    }
-		    return createChainableTypeChecker(validate);
-		  }
-
-		  function createElementTypeChecker() {
-		    function validate(props, propName, componentName, location, propFullName) {
-		      var propValue = props[propName];
-		      if (!isValidElement(propValue)) {
-		        var propType = getPropType(propValue);
-		        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement.'));
-		      }
-		      return null;
-		    }
-		    return createChainableTypeChecker(validate);
-		  }
-
-		  function createInstanceTypeChecker(expectedClass) {
-		    function validate(props, propName, componentName, location, propFullName) {
-		      if (!(props[propName] instanceof expectedClass)) {
-		        var expectedClassName = expectedClass.name || ANONYMOUS;
-		        var actualClassName = getClassName(props[propName]);
-		        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
-		      }
-		      return null;
-		    }
-		    return createChainableTypeChecker(validate);
-		  }
-
-		  function createEnumTypeChecker(expectedValues) {
-		    if (!Array.isArray(expectedValues)) {
-		      process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOf, expected an instance of array.') : void 0;
-		      return emptyFunction.thatReturnsNull;
-		    }
-
-		    function validate(props, propName, componentName, location, propFullName) {
-		      var propValue = props[propName];
-		      for (var i = 0; i < expectedValues.length; i++) {
-		        if (is(propValue, expectedValues[i])) {
-		          return null;
-		        }
-		      }
-
-		      var valuesString = JSON.stringify(expectedValues);
-		      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + propValue + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
-		    }
-		    return createChainableTypeChecker(validate);
-		  }
-
-		  function createObjectOfTypeChecker(typeChecker) {
-		    function validate(props, propName, componentName, location, propFullName) {
-		      if (typeof typeChecker !== 'function') {
-		        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
-		      }
-		      var propValue = props[propName];
-		      var propType = getPropType(propValue);
-		      if (propType !== 'object') {
-		        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
-		      }
-		      for (var key in propValue) {
-		        if (propValue.hasOwnProperty(key)) {
-		          var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
-		          if (error instanceof Error) {
-		            return error;
-		          }
-		        }
-		      }
-		      return null;
-		    }
-		    return createChainableTypeChecker(validate);
-		  }
-
-		  function createUnionTypeChecker(arrayOfTypeCheckers) {
-		    if (!Array.isArray(arrayOfTypeCheckers)) {
-		      process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOfType, expected an instance of array.') : void 0;
-		      return emptyFunction.thatReturnsNull;
-		    }
-
-		    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
-		      var checker = arrayOfTypeCheckers[i];
-		      if (typeof checker !== 'function') {
-		        warning(
-		          false,
-		          'Invalid argument supplid to oneOfType. Expected an array of check functions, but ' +
-		          'received %s at index %s.',
-		          getPostfixForTypeWarning(checker),
-		          i
-		        );
-		        return emptyFunction.thatReturnsNull;
-		      }
-		    }
-
-		    function validate(props, propName, componentName, location, propFullName) {
-		      for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
-		        var checker = arrayOfTypeCheckers[i];
-		        if (checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret) == null) {
-		          return null;
-		        }
-		      }
-
-		      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
-		    }
-		    return createChainableTypeChecker(validate);
-		  }
-
-		  function createNodeChecker() {
-		    function validate(props, propName, componentName, location, propFullName) {
-		      if (!isNode(props[propName])) {
-		        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
-		      }
-		      return null;
-		    }
-		    return createChainableTypeChecker(validate);
-		  }
-
-		  function createShapeTypeChecker(shapeTypes) {
-		    function validate(props, propName, componentName, location, propFullName) {
-		      var propValue = props[propName];
-		      var propType = getPropType(propValue);
-		      if (propType !== 'object') {
-		        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
-		      }
-		      for (var key in shapeTypes) {
-		        var checker = shapeTypes[key];
-		        if (!checker) {
-		          continue;
-		        }
-		        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
-		        if (error) {
-		          return error;
-		        }
-		      }
-		      return null;
-		    }
-		    return createChainableTypeChecker(validate);
-		  }
-
-		  function isNode(propValue) {
-		    switch (typeof propValue) {
-		      case 'number':
-		      case 'string':
-		      case 'undefined':
-		        return true;
-		      case 'boolean':
-		        return !propValue;
-		      case 'object':
-		        if (Array.isArray(propValue)) {
-		          return propValue.every(isNode);
-		        }
-		        if (propValue === null || isValidElement(propValue)) {
-		          return true;
-		        }
-
-		        var iteratorFn = getIteratorFn(propValue);
-		        if (iteratorFn) {
-		          var iterator = iteratorFn.call(propValue);
-		          var step;
-		          if (iteratorFn !== propValue.entries) {
-		            while (!(step = iterator.next()).done) {
-		              if (!isNode(step.value)) {
-		                return false;
-		              }
-		            }
-		          } else {
-		            // Iterator will provide entry [k,v] tuples rather than values.
-		            while (!(step = iterator.next()).done) {
-		              var entry = step.value;
-		              if (entry) {
-		                if (!isNode(entry[1])) {
-		                  return false;
-		                }
-		              }
-		            }
-		          }
-		        } else {
-		          return false;
-		        }
-
-		        return true;
-		      default:
-		        return false;
-		    }
-		  }
-
-		  function isSymbol(propType, propValue) {
-		    // Native Symbol.
-		    if (propType === 'symbol') {
-		      return true;
-		    }
-
-		    // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
-		    if (propValue['@@toStringTag'] === 'Symbol') {
-		      return true;
-		    }
-
-		    // Fallback for non-spec compliant Symbols which are polyfilled.
-		    if (typeof Symbol === 'function' && propValue instanceof Symbol) {
-		      return true;
-		    }
-
-		    return false;
-		  }
-
-		  // Equivalent of `typeof` but with special handling for array and regexp.
-		  function getPropType(propValue) {
-		    var propType = typeof propValue;
-		    if (Array.isArray(propValue)) {
-		      return 'array';
-		    }
-		    if (propValue instanceof RegExp) {
-		      // Old webkits (at least until Android 4.0) return 'function' rather than
-		      // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
-		      // passes PropTypes.object.
-		      return 'object';
-		    }
-		    if (isSymbol(propType, propValue)) {
-		      return 'symbol';
-		    }
-		    return propType;
-		  }
-
-		  // This handles more types than `getPropType`. Only used for error messages.
-		  // See `createPrimitiveTypeChecker`.
-		  function getPreciseType(propValue) {
-		    if (typeof propValue === 'undefined' || propValue === null) {
-		      return '' + propValue;
-		    }
-		    var propType = getPropType(propValue);
-		    if (propType === 'object') {
-		      if (propValue instanceof Date) {
-		        return 'date';
-		      } else if (propValue instanceof RegExp) {
-		        return 'regexp';
-		      }
-		    }
-		    return propType;
-		  }
-
-		  // Returns a string that is postfixed to a warning about an invalid type.
-		  // For example, "undefined" or "of type array"
-		  function getPostfixForTypeWarning(value) {
-		    var type = getPreciseType(value);
-		    switch (type) {
-		      case 'array':
-		      case 'object':
-		        return 'an ' + type;
-		      case 'boolean':
-		      case 'date':
-		      case 'regexp':
-		        return 'a ' + type;
-		      default:
-		        return type;
-		    }
-		  }
-
-		  // Returns class name of the object, if any.
-		  function getClassName(propValue) {
-		    if (!propValue.constructor || !propValue.constructor.name) {
-		      return ANONYMOUS;
-		    }
-		    return propValue.constructor.name;
-		  }
-
-		  ReactPropTypes.checkPropTypes = checkPropTypes;
-		  ReactPropTypes.PropTypes = ReactPropTypes;
-
-		  return ReactPropTypes;
-		};
-
-		/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-	/***/ }),
-	/* 6 */
-	/***/ (function(module, exports) {
-
-		"use strict";
-
-		/**
-		 * Copyright (c) 2013-present, Facebook, Inc.
-		 * All rights reserved.
-		 *
-		 * This source code is licensed under the BSD-style license found in the
-		 * LICENSE file in the root directory of this source tree. An additional grant
-		 * of patent rights can be found in the PATENTS file in the same directory.
-		 *
-		 * 
-		 */
-
-		function makeEmptyFunction(arg) {
-		  return function () {
-		    return arg;
-		  };
-		}
-
-		/**
-		 * This function accepts and discards inputs; it has no side effects. This is
-		 * primarily useful idiomatically for overridable function endpoints which
-		 * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
-		 */
-		var emptyFunction = function emptyFunction() {};
-
-		emptyFunction.thatReturns = makeEmptyFunction;
-		emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
-		emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
-		emptyFunction.thatReturnsNull = makeEmptyFunction(null);
-		emptyFunction.thatReturnsThis = function () {
-		  return this;
-		};
-		emptyFunction.thatReturnsArgument = function (arg) {
-		  return arg;
-		};
-
-		module.exports = emptyFunction;
-
-	/***/ }),
-	/* 7 */
-	/***/ (function(module, exports, __webpack_require__) {
-
-		/* WEBPACK VAR INJECTION */(function(process) {/**
-		 * Copyright (c) 2013-present, Facebook, Inc.
-		 * All rights reserved.
-		 *
-		 * This source code is licensed under the BSD-style license found in the
-		 * LICENSE file in the root directory of this source tree. An additional grant
-		 * of patent rights can be found in the PATENTS file in the same directory.
-		 *
-		 */
-
-		'use strict';
-
-		/**
-		 * Use invariant() to assert state which your program assumes to be true.
-		 *
-		 * Provide sprintf-style format (only %s is supported) and arguments
-		 * to provide information about what broke and what you were
-		 * expecting.
-		 *
-		 * The invariant message will be stripped in production, but the invariant
-		 * will remain to ensure logic does not differ in production.
-		 */
-
-		var validateFormat = function validateFormat(format) {};
-
-		if (process.env.NODE_ENV !== 'production') {
-		  validateFormat = function validateFormat(format) {
-		    if (format === undefined) {
-		      throw new Error('invariant requires an error message argument');
-		    }
-		  };
-		}
-
-		function invariant(condition, format, a, b, c, d, e, f) {
-		  validateFormat(format);
-
-		  if (!condition) {
-		    var error;
-		    if (format === undefined) {
-		      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-		    } else {
-		      var args = [a, b, c, d, e, f];
-		      var argIndex = 0;
-		      error = new Error(format.replace(/%s/g, function () {
-		        return args[argIndex++];
-		      }));
-		      error.name = 'Invariant Violation';
-		    }
-
-		    error.framesToPop = 1; // we don't care about invariant's own frame
-		    throw error;
-		  }
-		}
-
-		module.exports = invariant;
-		/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-	/***/ }),
-	/* 8 */
-	/***/ (function(module, exports, __webpack_require__) {
-
-		/* WEBPACK VAR INJECTION */(function(process) {/**
-		 * Copyright 2014-2015, Facebook, Inc.
-		 * All rights reserved.
-		 *
-		 * This source code is licensed under the BSD-style license found in the
-		 * LICENSE file in the root directory of this source tree. An additional grant
-		 * of patent rights can be found in the PATENTS file in the same directory.
-		 *
-		 */
-
-		'use strict';
-
-		var emptyFunction = __webpack_require__(6);
-
-		/**
-		 * Similar to invariant but only logs a warning if the condition is not met.
-		 * This can be used to log issues in development environments in critical
-		 * paths. Removing the logging code for production environments will keep the
-		 * same logic and follow the same code paths.
-		 */
-
-		var warning = emptyFunction;
-
-		if (process.env.NODE_ENV !== 'production') {
-		  var printWarning = function printWarning(format) {
-		    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-		      args[_key - 1] = arguments[_key];
-		    }
-
-		    var argIndex = 0;
-		    var message = 'Warning: ' + format.replace(/%s/g, function () {
-		      return args[argIndex++];
-		    });
-		    if (typeof console !== 'undefined') {
-		      console.error(message);
-		    }
-		    try {
-		      // --- Welcome to debugging React ---
-		      // This error was thrown as a convenience so that you can use this stack
-		      // to find the callsite that caused this warning to fire.
-		      throw new Error(message);
-		    } catch (x) {}
-		  };
-
-		  warning = function warning(condition, format) {
-		    if (format === undefined) {
-		      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
-		    }
-
-		    if (format.indexOf('Failed Composite propType: ') === 0) {
-		      return; // Ignore CompositeComponent proptype check.
-		    }
-
-		    if (!condition) {
-		      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-		        args[_key2 - 2] = arguments[_key2];
-		      }
-
-		      printWarning.apply(undefined, [format].concat(args));
-		    }
-		  };
-		}
-
-		module.exports = warning;
-		/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-	/***/ }),
-	/* 9 */
-	/***/ (function(module, exports) {
-
-		/**
-		 * Copyright 2013-present, Facebook, Inc.
-		 * All rights reserved.
-		 *
-		 * This source code is licensed under the BSD-style license found in the
-		 * LICENSE file in the root directory of this source tree. An additional grant
-		 * of patent rights can be found in the PATENTS file in the same directory.
-		 */
-
-		'use strict';
-
-		var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-		module.exports = ReactPropTypesSecret;
-
-
-	/***/ }),
-	/* 10 */
-	/***/ (function(module, exports, __webpack_require__) {
-
-		/* WEBPACK VAR INJECTION */(function(process) {/**
-		 * Copyright 2013-present, Facebook, Inc.
-		 * All rights reserved.
-		 *
-		 * This source code is licensed under the BSD-style license found in the
-		 * LICENSE file in the root directory of this source tree. An additional grant
-		 * of patent rights can be found in the PATENTS file in the same directory.
-		 */
-
-		'use strict';
-
-		if (process.env.NODE_ENV !== 'production') {
-		  var invariant = __webpack_require__(7);
-		  var warning = __webpack_require__(8);
-		  var ReactPropTypesSecret = __webpack_require__(9);
-		  var loggedTypeFailures = {};
-		}
-
-		/**
-		 * Assert that the values match with the type specs.
-		 * Error messages are memorized and will only be shown once.
-		 *
-		 * @param {object} typeSpecs Map of name to a ReactPropType
-		 * @param {object} values Runtime values that need to be type-checked
-		 * @param {string} location e.g. "prop", "context", "child context"
-		 * @param {string} componentName Name of the component for error messages.
-		 * @param {?Function} getStack Returns the component stack.
-		 * @private
-		 */
-		function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
-		  if (process.env.NODE_ENV !== 'production') {
-		    for (var typeSpecName in typeSpecs) {
-		      if (typeSpecs.hasOwnProperty(typeSpecName)) {
-		        var error;
-		        // Prop type validation may throw. In case they do, we don't want to
-		        // fail the render phase where it didn't fail before. So we log it.
-		        // After these have been cleaned up, we'll let them throw.
-		        try {
-		          // This is intentionally an invariant that gets caught. It's the same
-		          // behavior as without this statement except with a better message.
-		          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'React.PropTypes.', componentName || 'React class', location, typeSpecName);
-		          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
-		        } catch (ex) {
-		          error = ex;
-		        }
-		        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
-		        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-		          // Only monitor this failure once because there tends to be a lot of the
-		          // same error.
-		          loggedTypeFailures[error.message] = true;
-
-		          var stack = getStack ? getStack() : '';
-
-		          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
-		        }
-		      }
-		    }
-		  }
-		}
-
-		module.exports = checkPropTypes;
-
-		/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-	/***/ }),
-	/* 11 */
-	/***/ (function(module, exports, __webpack_require__) {
-
-		/**
-		 * Copyright 2013-present, Facebook, Inc.
-		 * All rights reserved.
-		 *
-		 * This source code is licensed under the BSD-style license found in the
-		 * LICENSE file in the root directory of this source tree. An additional grant
-		 * of patent rights can be found in the PATENTS file in the same directory.
-		 */
-
-		'use strict';
-
-		var emptyFunction = __webpack_require__(6);
-		var invariant = __webpack_require__(7);
-		var ReactPropTypesSecret = __webpack_require__(9);
-
-		module.exports = function() {
-		  function shim(props, propName, componentName, location, propFullName, secret) {
-		    if (secret === ReactPropTypesSecret) {
-		      // It is still safe when called from React.
-		      return;
-		    }
-		    invariant(
-		      false,
-		      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-		      'Use PropTypes.checkPropTypes() to call them. ' +
-		      'Read more at http://fb.me/use-check-prop-types'
-		    );
-		  };
-		  shim.isRequired = shim;
-		  function getShim() {
-		    return shim;
-		  };
-		  // Important!
-		  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
-		  var ReactPropTypes = {
-		    array: shim,
-		    bool: shim,
-		    func: shim,
-		    number: shim,
-		    object: shim,
-		    string: shim,
-		    symbol: shim,
-
-		    any: shim,
-		    arrayOf: getShim,
-		    element: shim,
-		    instanceOf: getShim,
-		    node: shim,
-		    objectOf: getShim,
-		    oneOf: getShim,
-		    oneOfType: getShim,
-		    shape: getShim
-		  };
-
-		  ReactPropTypes.checkPropTypes = emptyFunction;
-		  ReactPropTypes.PropTypes = ReactPropTypes;
-
-		  return ReactPropTypes;
-		};
-
-
-	/***/ }),
-	/* 12 */
-	/***/ (function(module, exports, __webpack_require__) {
-
-		'use strict';
-
-		var fetchKeys = __webpack_require__(13);
-
-		module.exports = function shallowEqual(objA, objB, compare, compareContext) {
-
-		    var ret = compare ? compare.call(compareContext, objA, objB) : void 0;
-
-		    if (ret !== void 0) {
-		        return !!ret;
-		    }
-
-		    if (objA === objB) {
-		        return true;
-		    }
-
-		    if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
-		        return false;
-		    }
-
-		    var keysA = fetchKeys(objA);
-		    var keysB = fetchKeys(objB);
-
-		    var len = keysA.length;
-		    if (len !== keysB.length) {
-		        return false;
-		    }
-
-		    compareContext = compareContext || null;
-
-		    // Test for A's keys different from B.
-		    var bHasOwnProperty = Object.prototype.hasOwnProperty.bind(objB);
-		    for (var i = 0; i < len; i++) {
-		        var key = keysA[i];
-		        if (!bHasOwnProperty(key)) {
-		            return false;
-		        }
-		        var valueA = objA[key];
-		        var valueB = objB[key];
-
-		        var _ret = compare ? compare.call(compareContext, valueA, valueB, key) : void 0;
-		        if (_ret === false || _ret === void 0 && valueA !== valueB) {
-		            return false;
-		        }
-		    }
-
-		    return true;
-		};
-
-	/***/ }),
-	/* 13 */
-	/***/ (function(module, exports, __webpack_require__) {
-
-		/**
-		 * lodash 3.1.2 (Custom Build) <https://lodash.com/>
-		 * Build: `lodash modern modularize exports="npm" -o ./`
-		 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
-		 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-		 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-		 * Available under MIT license <https://lodash.com/license>
-		 */
-		var getNative = __webpack_require__(14),
-		    isArguments = __webpack_require__(15),
-		    isArray = __webpack_require__(16);
-
-		/** Used to detect unsigned integer values. */
-		var reIsUint = /^\d+$/;
-
-		/** Used for native method references. */
-		var objectProto = Object.prototype;
-
-		/** Used to check objects for own properties. */
-		var hasOwnProperty = objectProto.hasOwnProperty;
-
-		/* Native method references for those with the same name as other `lodash` methods. */
-		var nativeKeys = getNative(Object, 'keys');
-
-		/**
-		 * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
-		 * of an array-like value.
-		 */
-		var MAX_SAFE_INTEGER = 9007199254740991;
-
-		/**
-		 * The base implementation of `_.property` without support for deep paths.
-		 *
-		 * @private
-		 * @param {string} key The key of the property to get.
-		 * @returns {Function} Returns the new function.
-		 */
-		function baseProperty(key) {
-		  return function(object) {
-		    return object == null ? undefined : object[key];
-		  };
-		}
-
-		/**
-		 * Gets the "length" property value of `object`.
-		 *
-		 * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
-		 * that affects Safari on at least iOS 8.1-8.3 ARM64.
-		 *
-		 * @private
-		 * @param {Object} object The object to query.
-		 * @returns {*} Returns the "length" value.
-		 */
-		var getLength = baseProperty('length');
-
-		/**
-		 * Checks if `value` is array-like.
-		 *
-		 * @private
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
-		 */
-		function isArrayLike(value) {
-		  return value != null && isLength(getLength(value));
-		}
-
-		/**
-		 * Checks if `value` is a valid array-like index.
-		 *
-		 * @private
-		 * @param {*} value The value to check.
-		 * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
-		 * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
-		 */
-		function isIndex(value, length) {
-		  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
-		  length = length == null ? MAX_SAFE_INTEGER : length;
-		  return value > -1 && value % 1 == 0 && value < length;
-		}
-
-		/**
-		 * Checks if `value` is a valid array-like length.
-		 *
-		 * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
-		 *
-		 * @private
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
-		 */
-		function isLength(value) {
-		  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-		}
-
-		/**
-		 * A fallback implementation of `Object.keys` which creates an array of the
-		 * own enumerable property names of `object`.
-		 *
-		 * @private
-		 * @param {Object} object The object to query.
-		 * @returns {Array} Returns the array of property names.
-		 */
-		function shimKeys(object) {
-		  var props = keysIn(object),
-		      propsLength = props.length,
-		      length = propsLength && object.length;
-
-		  var allowIndexes = !!length && isLength(length) &&
-		    (isArray(object) || isArguments(object));
-
-		  var index = -1,
-		      result = [];
-
-		  while (++index < propsLength) {
-		    var key = props[index];
-		    if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
-		      result.push(key);
-		    }
-		  }
-		  return result;
-		}
-
-		/**
-		 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
-		 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-		 *
-		 * @static
-		 * @memberOf _
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-		 * @example
-		 *
-		 * _.isObject({});
-		 * // => true
-		 *
-		 * _.isObject([1, 2, 3]);
-		 * // => true
-		 *
-		 * _.isObject(1);
-		 * // => false
-		 */
-		function isObject(value) {
-		  // Avoid a V8 JIT bug in Chrome 19-20.
-		  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-		  var type = typeof value;
-		  return !!value && (type == 'object' || type == 'function');
-		}
-
-		/**
-		 * Creates an array of the own enumerable property names of `object`.
-		 *
-		 * **Note:** Non-object values are coerced to objects. See the
-		 * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
-		 * for more details.
-		 *
-		 * @static
-		 * @memberOf _
-		 * @category Object
-		 * @param {Object} object The object to query.
-		 * @returns {Array} Returns the array of property names.
-		 * @example
-		 *
-		 * function Foo() {
-		 *   this.a = 1;
-		 *   this.b = 2;
-		 * }
-		 *
-		 * Foo.prototype.c = 3;
-		 *
-		 * _.keys(new Foo);
-		 * // => ['a', 'b'] (iteration order is not guaranteed)
-		 *
-		 * _.keys('hi');
-		 * // => ['0', '1']
-		 */
-		var keys = !nativeKeys ? shimKeys : function(object) {
-		  var Ctor = object == null ? undefined : object.constructor;
-		  if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
-		      (typeof object != 'function' && isArrayLike(object))) {
-		    return shimKeys(object);
-		  }
-		  return isObject(object) ? nativeKeys(object) : [];
-		};
-
-		/**
-		 * Creates an array of the own and inherited enumerable property names of `object`.
-		 *
-		 * **Note:** Non-object values are coerced to objects.
-		 *
-		 * @static
-		 * @memberOf _
-		 * @category Object
-		 * @param {Object} object The object to query.
-		 * @returns {Array} Returns the array of property names.
-		 * @example
-		 *
-		 * function Foo() {
-		 *   this.a = 1;
-		 *   this.b = 2;
-		 * }
-		 *
-		 * Foo.prototype.c = 3;
-		 *
-		 * _.keysIn(new Foo);
-		 * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
-		 */
-		function keysIn(object) {
-		  if (object == null) {
-		    return [];
-		  }
-		  if (!isObject(object)) {
-		    object = Object(object);
-		  }
-		  var length = object.length;
-		  length = (length && isLength(length) &&
-		    (isArray(object) || isArguments(object)) && length) || 0;
-
-		  var Ctor = object.constructor,
-		      index = -1,
-		      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
-		      result = Array(length),
-		      skipIndexes = length > 0;
-
-		  while (++index < length) {
-		    result[index] = (index + '');
-		  }
-		  for (var key in object) {
-		    if (!(skipIndexes && isIndex(key, length)) &&
-		        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-		      result.push(key);
-		    }
-		  }
-		  return result;
-		}
-
-		module.exports = keys;
-
-
-	/***/ }),
-	/* 14 */
-	/***/ (function(module, exports) {
-
-		/**
-		 * lodash 3.9.1 (Custom Build) <https://lodash.com/>
-		 * Build: `lodash modern modularize exports="npm" -o ./`
-		 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
-		 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-		 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-		 * Available under MIT license <https://lodash.com/license>
-		 */
-
-		/** `Object#toString` result references. */
-		var funcTag = '[object Function]';
-
-		/** Used to detect host constructors (Safari > 5). */
-		var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-		/**
-		 * Checks if `value` is object-like.
-		 *
-		 * @private
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-		 */
-		function isObjectLike(value) {
-		  return !!value && typeof value == 'object';
-		}
-
-		/** Used for native method references. */
-		var objectProto = Object.prototype;
-
-		/** Used to resolve the decompiled source of functions. */
-		var fnToString = Function.prototype.toString;
-
-		/** Used to check objects for own properties. */
-		var hasOwnProperty = objectProto.hasOwnProperty;
-
-		/**
-		 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-		 * of values.
-		 */
-		var objToString = objectProto.toString;
-
-		/** Used to detect if a method is native. */
-		var reIsNative = RegExp('^' +
-		  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
-		  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-		);
-
-		/**
-		 * Gets the native function at `key` of `object`.
-		 *
-		 * @private
-		 * @param {Object} object The object to query.
-		 * @param {string} key The key of the method to get.
-		 * @returns {*} Returns the function if it's native, else `undefined`.
-		 */
-		function getNative(object, key) {
-		  var value = object == null ? undefined : object[key];
-		  return isNative(value) ? value : undefined;
-		}
-
-		/**
-		 * Checks if `value` is classified as a `Function` object.
-		 *
-		 * @static
-		 * @memberOf _
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-		 * @example
-		 *
-		 * _.isFunction(_);
-		 * // => true
-		 *
-		 * _.isFunction(/abc/);
-		 * // => false
-		 */
-		function isFunction(value) {
-		  // The use of `Object#toString` avoids issues with the `typeof` operator
-		  // in older versions of Chrome and Safari which return 'function' for regexes
-		  // and Safari 8 equivalents which return 'object' for typed array constructors.
-		  return isObject(value) && objToString.call(value) == funcTag;
-		}
-
-		/**
-		 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
-		 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-		 *
-		 * @static
-		 * @memberOf _
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-		 * @example
-		 *
-		 * _.isObject({});
-		 * // => true
-		 *
-		 * _.isObject([1, 2, 3]);
-		 * // => true
-		 *
-		 * _.isObject(1);
-		 * // => false
-		 */
-		function isObject(value) {
-		  // Avoid a V8 JIT bug in Chrome 19-20.
-		  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-		  var type = typeof value;
-		  return !!value && (type == 'object' || type == 'function');
-		}
-
-		/**
-		 * Checks if `value` is a native function.
-		 *
-		 * @static
-		 * @memberOf _
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
-		 * @example
-		 *
-		 * _.isNative(Array.prototype.push);
-		 * // => true
-		 *
-		 * _.isNative(_);
-		 * // => false
-		 */
-		function isNative(value) {
-		  if (value == null) {
-		    return false;
-		  }
-		  if (isFunction(value)) {
-		    return reIsNative.test(fnToString.call(value));
-		  }
-		  return isObjectLike(value) && reIsHostCtor.test(value);
-		}
-
-		module.exports = getNative;
-
-
-	/***/ }),
-	/* 15 */
-	/***/ (function(module, exports) {
-
-		/**
-		 * lodash (Custom Build) <https://lodash.com/>
-		 * Build: `lodash modularize exports="npm" -o ./`
-		 * Copyright jQuery Foundation and other contributors <https://jquery.org/>
-		 * Released under MIT license <https://lodash.com/license>
-		 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-		 * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-		 */
-
-		/** Used as references for various `Number` constants. */
-		var MAX_SAFE_INTEGER = 9007199254740991;
-
-		/** `Object#toString` result references. */
-		var argsTag = '[object Arguments]',
-		    funcTag = '[object Function]',
-		    genTag = '[object GeneratorFunction]';
-
-		/** Used for built-in method references. */
-		var objectProto = Object.prototype;
-
-		/** Used to check objects for own properties. */
-		var hasOwnProperty = objectProto.hasOwnProperty;
-
-		/**
-		 * Used to resolve the
-		 * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
-		 * of values.
-		 */
-		var objectToString = objectProto.toString;
-
-		/** Built-in value references. */
-		var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-		/**
-		 * Checks if `value` is likely an `arguments` object.
-		 *
-		 * @static
-		 * @memberOf _
-		 * @since 0.1.0
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is an `arguments` object,
-		 *  else `false`.
-		 * @example
-		 *
-		 * _.isArguments(function() { return arguments; }());
-		 * // => true
-		 *
-		 * _.isArguments([1, 2, 3]);
-		 * // => false
-		 */
-		function isArguments(value) {
-		  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-		  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-		    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-		}
-
-		/**
-		 * Checks if `value` is array-like. A value is considered array-like if it's
-		 * not a function and has a `value.length` that's an integer greater than or
-		 * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
-		 *
-		 * @static
-		 * @memberOf _
-		 * @since 4.0.0
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
-		 * @example
-		 *
-		 * _.isArrayLike([1, 2, 3]);
-		 * // => true
-		 *
-		 * _.isArrayLike(document.body.children);
-		 * // => true
-		 *
-		 * _.isArrayLike('abc');
-		 * // => true
-		 *
-		 * _.isArrayLike(_.noop);
-		 * // => false
-		 */
-		function isArrayLike(value) {
-		  return value != null && isLength(value.length) && !isFunction(value);
-		}
-
-		/**
-		 * This method is like `_.isArrayLike` except that it also checks if `value`
-		 * is an object.
-		 *
-		 * @static
-		 * @memberOf _
-		 * @since 4.0.0
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is an array-like object,
-		 *  else `false`.
-		 * @example
-		 *
-		 * _.isArrayLikeObject([1, 2, 3]);
-		 * // => true
-		 *
-		 * _.isArrayLikeObject(document.body.children);
-		 * // => true
-		 *
-		 * _.isArrayLikeObject('abc');
-		 * // => false
-		 *
-		 * _.isArrayLikeObject(_.noop);
-		 * // => false
-		 */
-		function isArrayLikeObject(value) {
-		  return isObjectLike(value) && isArrayLike(value);
-		}
-
-		/**
-		 * Checks if `value` is classified as a `Function` object.
-		 *
-		 * @static
-		 * @memberOf _
-		 * @since 0.1.0
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is a function, else `false`.
-		 * @example
-		 *
-		 * _.isFunction(_);
-		 * // => true
-		 *
-		 * _.isFunction(/abc/);
-		 * // => false
-		 */
-		function isFunction(value) {
-		  // The use of `Object#toString` avoids issues with the `typeof` operator
-		  // in Safari 8-9 which returns 'object' for typed array and other constructors.
-		  var tag = isObject(value) ? objectToString.call(value) : '';
-		  return tag == funcTag || tag == genTag;
-		}
-
-		/**
-		 * Checks if `value` is a valid array-like length.
-		 *
-		 * **Note:** This method is loosely based on
-		 * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
-		 *
-		 * @static
-		 * @memberOf _
-		 * @since 4.0.0
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
-		 * @example
-		 *
-		 * _.isLength(3);
-		 * // => true
-		 *
-		 * _.isLength(Number.MIN_VALUE);
-		 * // => false
-		 *
-		 * _.isLength(Infinity);
-		 * // => false
-		 *
-		 * _.isLength('3');
-		 * // => false
-		 */
-		function isLength(value) {
-		  return typeof value == 'number' &&
-		    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-		}
-
-		/**
-		 * Checks if `value` is the
-		 * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
-		 * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-		 *
-		 * @static
-		 * @memberOf _
-		 * @since 0.1.0
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-		 * @example
-		 *
-		 * _.isObject({});
-		 * // => true
-		 *
-		 * _.isObject([1, 2, 3]);
-		 * // => true
-		 *
-		 * _.isObject(_.noop);
-		 * // => true
-		 *
-		 * _.isObject(null);
-		 * // => false
-		 */
-		function isObject(value) {
-		  var type = typeof value;
-		  return !!value && (type == 'object' || type == 'function');
-		}
-
-		/**
-		 * Checks if `value` is object-like. A value is object-like if it's not `null`
-		 * and has a `typeof` result of "object".
-		 *
-		 * @static
-		 * @memberOf _
-		 * @since 4.0.0
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-		 * @example
-		 *
-		 * _.isObjectLike({});
-		 * // => true
-		 *
-		 * _.isObjectLike([1, 2, 3]);
-		 * // => true
-		 *
-		 * _.isObjectLike(_.noop);
-		 * // => false
-		 *
-		 * _.isObjectLike(null);
-		 * // => false
-		 */
-		function isObjectLike(value) {
-		  return !!value && typeof value == 'object';
-		}
-
-		module.exports = isArguments;
-
-
-	/***/ }),
-	/* 16 */
-	/***/ (function(module, exports) {
-
-		/**
-		 * lodash 3.0.4 (Custom Build) <https://lodash.com/>
-		 * Build: `lodash modern modularize exports="npm" -o ./`
-		 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
-		 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-		 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-		 * Available under MIT license <https://lodash.com/license>
-		 */
-
-		/** `Object#toString` result references. */
-		var arrayTag = '[object Array]',
-		    funcTag = '[object Function]';
-
-		/** Used to detect host constructors (Safari > 5). */
-		var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-		/**
-		 * Checks if `value` is object-like.
-		 *
-		 * @private
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-		 */
-		function isObjectLike(value) {
-		  return !!value && typeof value == 'object';
-		}
-
-		/** Used for native method references. */
-		var objectProto = Object.prototype;
-
-		/** Used to resolve the decompiled source of functions. */
-		var fnToString = Function.prototype.toString;
-
-		/** Used to check objects for own properties. */
-		var hasOwnProperty = objectProto.hasOwnProperty;
-
-		/**
-		 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-		 * of values.
-		 */
-		var objToString = objectProto.toString;
-
-		/** Used to detect if a method is native. */
-		var reIsNative = RegExp('^' +
-		  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
-		  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-		);
-
-		/* Native method references for those with the same name as other `lodash` methods. */
-		var nativeIsArray = getNative(Array, 'isArray');
-
-		/**
-		 * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
-		 * of an array-like value.
-		 */
-		var MAX_SAFE_INTEGER = 9007199254740991;
-
-		/**
-		 * Gets the native function at `key` of `object`.
-		 *
-		 * @private
-		 * @param {Object} object The object to query.
-		 * @param {string} key The key of the method to get.
-		 * @returns {*} Returns the function if it's native, else `undefined`.
-		 */
-		function getNative(object, key) {
-		  var value = object == null ? undefined : object[key];
-		  return isNative(value) ? value : undefined;
-		}
-
-		/**
-		 * Checks if `value` is a valid array-like length.
-		 *
-		 * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
-		 *
-		 * @private
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
-		 */
-		function isLength(value) {
-		  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-		}
-
-		/**
-		 * Checks if `value` is classified as an `Array` object.
-		 *
-		 * @static
-		 * @memberOf _
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-		 * @example
-		 *
-		 * _.isArray([1, 2, 3]);
-		 * // => true
-		 *
-		 * _.isArray(function() { return arguments; }());
-		 * // => false
-		 */
-		var isArray = nativeIsArray || function(value) {
-		  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
-		};
-
-		/**
-		 * Checks if `value` is classified as a `Function` object.
-		 *
-		 * @static
-		 * @memberOf _
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-		 * @example
-		 *
-		 * _.isFunction(_);
-		 * // => true
-		 *
-		 * _.isFunction(/abc/);
-		 * // => false
-		 */
-		function isFunction(value) {
-		  // The use of `Object#toString` avoids issues with the `typeof` operator
-		  // in older versions of Chrome and Safari which return 'function' for regexes
-		  // and Safari 8 equivalents which return 'object' for typed array constructors.
-		  return isObject(value) && objToString.call(value) == funcTag;
-		}
-
-		/**
-		 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
-		 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-		 *
-		 * @static
-		 * @memberOf _
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-		 * @example
-		 *
-		 * _.isObject({});
-		 * // => true
-		 *
-		 * _.isObject([1, 2, 3]);
-		 * // => true
-		 *
-		 * _.isObject(1);
-		 * // => false
-		 */
-		function isObject(value) {
-		  // Avoid a V8 JIT bug in Chrome 19-20.
-		  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-		  var type = typeof value;
-		  return !!value && (type == 'object' || type == 'function');
-		}
-
-		/**
-		 * Checks if `value` is a native function.
-		 *
-		 * @static
-		 * @memberOf _
-		 * @category Lang
-		 * @param {*} value The value to check.
-		 * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
-		 * @example
-		 *
-		 * _.isNative(Array.prototype.push);
-		 * // => true
-		 *
-		 * _.isNative(_);
-		 * // => false
-		 */
-		function isNative(value) {
-		  if (value == null) {
-		    return false;
-		  }
-		  if (isFunction(value)) {
-		    return reIsNative.test(fnToString.call(value));
-		  }
-		  return isObjectLike(value) && reIsHostCtor.test(value);
-		}
-
-		module.exports = isArray;
-
-
-	/***/ }),
-	/* 17 */
-	/***/ (function(module, exports) {
-
-		// removed by extract-text-webpack-plugin
-		module.exports = {"loading":"Loading__loading___1m_fZ","bar":"Loading__bar___21yOt","peg":"Loading__peg___3Y_28","spinner":"Loading__spinner___11Pm4","icon":"Loading__icon___3OOyu","loading-bar-spinner":"Loading__loading-bar-spinner___1hKY9"};
+	// removed by extract-text-webpack-plugin
 
 	/***/ })
-	/******/ ])
+	/******/ ]);
 	});
-	;
 
 /***/ }),
-/* 197 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
 
-	// load the styles
-	var content = __webpack_require__(198);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(187)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../css-loader/index.js!./index.css", function() {
-				var newContent = require("!!../../css-loader/index.js!./index.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
+	if (process.env.NODE_ENV !== 'production') {
+	  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+	    Symbol.for &&
+	    Symbol.for('react.element')) ||
+	    0xeac7;
+
+	  var isValidElement = function(object) {
+	    return typeof object === 'object' &&
+	      object !== null &&
+	      object.$$typeof === REACT_ELEMENT_TYPE;
+	  };
+
+	  // By explicitly using `prop-types` you are opting into new development behavior.
+	  // http://fb.me/prop-types-in-prod
+	  var throwOnDirectAccess = true;
+	  module.exports = __webpack_require__(30)(isValidElement, throwOnDirectAccess);
+	} else {
+	  // By explicitly using `prop-types` you are opting into new production behavior.
+	  // http://fb.me/prop-types-in-prod
+	  module.exports = __webpack_require__(190)();
 	}
 
-/***/ }),
-/* 198 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(186)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".Loading__loading___1m_fZ {\n  pointer-events: none;\n  transition: 400ms linear all;\n}\n\n.Loading__bar___21yOt {\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 10002;\n  display: none;\n  width: 100%;\n  height: 2px;\n  background: #29d;\n  border-radius: 0 1px 1px 0;\n  transition: width 350ms;\n}\n\n.Loading__peg___3Y_28 {\n  position: absolute;\n  top: 0;\n  right: 0;\n  width: 70px;\n  height: 2px;\n  border-radius: 50%;\n  opacity: .45;\n  box-shadow: #29d 1px 0 6px 1px;\n}\n\n.Loading__spinner___11Pm4 {\n  position: fixed;\n  top: 5px;\n  left: 5px;\n  z-index: 10002;\n  pointer-events: none;\n  transition: 350ms linear all;\n}\n\n.Loading__icon___3OOyu {\n  width: 14px;\n  height: 14px;\n  border: solid #29d;\n  border-width: 0 2px 2px 0;\n  border-radius: 50%;\n  -webkit-animation: Loading__loading-bar-spinner___1hKY9 400ms linear infinite;\n          animation: Loading__loading-bar-spinner___1hKY9 400ms linear infinite;\n}\n\n@-webkit-keyframes Loading__loading-bar-spinner___1hKY9 {\n  0% {\n    -webkit-transform: rotate(0);\n            transform: rotate(0);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n  }\n}\n\n@keyframes Loading__loading-bar-spinner___1hKY9 {\n  0% {\n    -webkit-transform: rotate(0);\n            transform: rotate(0);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n  }\n}\n", ""]);
-
-	// exports
-
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 199 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
 
-	// load the styles
-	var content = __webpack_require__(200);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(187)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./Example.css", function() {
-				var newContent = require("!!../../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!../../../node_modules/postcss-loader/index.js!./Example.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
+	'use strict';
 
-/***/ }),
-/* 200 */
-/***/ (function(module, exports, __webpack_require__) {
+	var emptyFunction = __webpack_require__(9);
+	var invariant = __webpack_require__(12);
+	var ReactPropTypesSecret = __webpack_require__(31);
 
-	exports = module.exports = __webpack_require__(186)();
-	// imports
+	module.exports = function() {
+	  function shim(props, propName, componentName, location, propFullName, secret) {
+	    if (secret === ReactPropTypesSecret) {
+	      // It is still safe when called from React.
+	      return;
+	    }
+	    invariant(
+	      false,
+	      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+	      'Use PropTypes.checkPropTypes() to call them. ' +
+	      'Read more at http://fb.me/use-check-prop-types'
+	    );
+	  };
+	  shim.isRequired = shim;
+	  function getShim() {
+	    return shim;
+	  };
+	  // Important!
+	  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
+	  var ReactPropTypes = {
+	    array: shim,
+	    bool: shim,
+	    func: shim,
+	    number: shim,
+	    object: shim,
+	    string: shim,
+	    symbol: shim,
 
+	    any: shim,
+	    arrayOf: getShim,
+	    element: shim,
+	    instanceOf: getShim,
+	    node: shim,
+	    objectOf: getShim,
+	    oneOf: getShim,
+	    oneOfType: getShim,
+	    shape: getShim
+	  };
 
-	// module
-	exports.push([module.id, ".Example__exampleComponent___3gyqT button {\n    display: inline-block;\n    margin-right: 8px;\n}\n", ""]);
+	  ReactPropTypes.checkPropTypes = emptyFunction;
+	  ReactPropTypes.PropTypes = ReactPropTypes;
 
-	// exports
-	exports.locals = {
-		"exampleComponent": "Example__exampleComponent___3gyqT"
+	  return ReactPropTypes;
 	};
+
+
+/***/ }),
+/* 191 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {(function() {
+
+	  // nb. This is for IE10 and lower _only_.
+	  var supportCustomEvent = window.CustomEvent;
+	  if (!supportCustomEvent || typeof supportCustomEvent === 'object') {
+	    supportCustomEvent = function CustomEvent(event, x) {
+	      x = x || {};
+	      var ev = document.createEvent('CustomEvent');
+	      ev.initCustomEvent(event, !!x.bubbles, !!x.cancelable, x.detail || null);
+	      return ev;
+	    };
+	    supportCustomEvent.prototype = window.Event.prototype;
+	  }
+
+	  /**
+	   * @param {Element} el to check for stacking context
+	   * @return {boolean} whether this el or its parents creates a stacking context
+	   */
+	  function createsStackingContext(el) {
+	    while (el && el !== document.body) {
+	      var s = window.getComputedStyle(el);
+	      var invalid = function(k, ok) {
+	        return !(s[k] === undefined || s[k] === ok);
+	      }
+	      if (s.opacity < 1 ||
+	          invalid('zIndex', 'auto') ||
+	          invalid('transform', 'none') ||
+	          invalid('mixBlendMode', 'normal') ||
+	          invalid('filter', 'none') ||
+	          invalid('perspective', 'none') ||
+	          s['isolation'] === 'isolate' ||
+	          s.position === 'fixed' ||
+	          s.webkitOverflowScrolling === 'touch') {
+	        return true;
+	      }
+	      el = el.parentElement;
+	    }
+	    return false;
+	  }
+
+	  /**
+	   * Finds the nearest <dialog> from the passed element.
+	   *
+	   * @param {Element} el to search from
+	   * @return {HTMLDialogElement} dialog found
+	   */
+	  function findNearestDialog(el) {
+	    while (el) {
+	      if (el.localName === 'dialog') {
+	        return /** @type {HTMLDialogElement} */ (el);
+	      }
+	      el = el.parentElement;
+	    }
+	    return null;
+	  }
+
+	  /**
+	   * Blur the specified element, as long as it's not the HTML body element.
+	   * This works around an IE9/10 bug - blurring the body causes Windows to
+	   * blur the whole application.
+	   *
+	   * @param {Element} el to blur
+	   */
+	  function safeBlur(el) {
+	    if (el && el.blur && el !== document.body) {
+	      el.blur();
+	    }
+	  }
+
+	  /**
+	   * @param {!NodeList} nodeList to search
+	   * @param {Node} node to find
+	   * @return {boolean} whether node is inside nodeList
+	   */
+	  function inNodeList(nodeList, node) {
+	    for (var i = 0; i < nodeList.length; ++i) {
+	      if (nodeList[i] === node) {
+	        return true;
+	      }
+	    }
+	    return false;
+	  }
+
+	  /**
+	   * @param {HTMLFormElement} el to check
+	   * @return {boolean} whether this form has method="dialog"
+	   */
+	  function isFormMethodDialog(el) {
+	    if (!el || !el.hasAttribute('method')) {
+	      return false;
+	    }
+	    return el.getAttribute('method').toLowerCase() === 'dialog';
+	  }
+
+	  /**
+	   * @param {!HTMLDialogElement} dialog to upgrade
+	   * @constructor
+	   */
+	  function dialogPolyfillInfo(dialog) {
+	    this.dialog_ = dialog;
+	    this.replacedStyleTop_ = false;
+	    this.openAsModal_ = false;
+
+	    // Set a11y role. Browsers that support dialog implicitly know this already.
+	    if (!dialog.hasAttribute('role')) {
+	      dialog.setAttribute('role', 'dialog');
+	    }
+
+	    dialog.show = this.show.bind(this);
+	    dialog.showModal = this.showModal.bind(this);
+	    dialog.close = this.close.bind(this);
+
+	    if (!('returnValue' in dialog)) {
+	      dialog.returnValue = '';
+	    }
+
+	    if ('MutationObserver' in window) {
+	      var mo = new MutationObserver(this.maybeHideModal.bind(this));
+	      mo.observe(dialog, {attributes: true, attributeFilter: ['open']});
+	    } else {
+	      // IE10 and below support. Note that DOMNodeRemoved etc fire _before_ removal. They also
+	      // seem to fire even if the element was removed as part of a parent removal. Use the removed
+	      // events to force downgrade (useful if removed/immediately added).
+	      var removed = false;
+	      var cb = function() {
+	        removed ? this.downgradeModal() : this.maybeHideModal();
+	        removed = false;
+	      }.bind(this);
+	      var timeout;
+	      var delayModel = function(ev) {
+	        if (ev.target !== dialog) { return; }  // not for a child element
+	        var cand = 'DOMNodeRemoved';
+	        removed |= (ev.type.substr(0, cand.length) === cand);
+	        window.clearTimeout(timeout);
+	        timeout = window.setTimeout(cb, 0);
+	      };
+	      ['DOMAttrModified', 'DOMNodeRemoved', 'DOMNodeRemovedFromDocument'].forEach(function(name) {
+	        dialog.addEventListener(name, delayModel);
+	      });
+	    }
+	    // Note that the DOM is observed inside DialogManager while any dialog
+	    // is being displayed as a modal, to catch modal removal from the DOM.
+
+	    Object.defineProperty(dialog, 'open', {
+	      set: this.setOpen.bind(this),
+	      get: dialog.hasAttribute.bind(dialog, 'open')
+	    });
+
+	    this.backdrop_ = document.createElement('div');
+	    this.backdrop_.className = 'backdrop';
+	    this.backdrop_.addEventListener('click', this.backdropClick_.bind(this));
+	  }
+
+	  dialogPolyfillInfo.prototype = {
+
+	    get dialog() {
+	      return this.dialog_;
+	    },
+
+	    /**
+	     * Maybe remove this dialog from the modal top layer. This is called when
+	     * a modal dialog may no longer be tenable, e.g., when the dialog is no
+	     * longer open or is no longer part of the DOM.
+	     */
+	    maybeHideModal: function() {
+	      if (this.dialog_.hasAttribute('open') && document.body.contains(this.dialog_)) { return; }
+	      this.downgradeModal();
+	    },
+
+	    /**
+	     * Remove this dialog from the modal top layer, leaving it as a non-modal.
+	     */
+	    downgradeModal: function() {
+	      if (!this.openAsModal_) { return; }
+	      this.openAsModal_ = false;
+	      this.dialog_.style.zIndex = '';
+
+	      // This won't match the native <dialog> exactly because if the user set top on a centered
+	      // polyfill dialog, that top gets thrown away when the dialog is closed. Not sure it's
+	      // possible to polyfill this perfectly.
+	      if (this.replacedStyleTop_) {
+	        this.dialog_.style.top = '';
+	        this.replacedStyleTop_ = false;
+	      }
+
+	      // Clear the backdrop and remove from the manager.
+	      this.backdrop_.parentNode && this.backdrop_.parentNode.removeChild(this.backdrop_);
+	      dialogPolyfill.dm.removeDialog(this);
+	    },
+
+	    /**
+	     * @param {boolean} value whether to open or close this dialog
+	     */
+	    setOpen: function(value) {
+	      if (value) {
+	        this.dialog_.hasAttribute('open') || this.dialog_.setAttribute('open', '');
+	      } else {
+	        this.dialog_.removeAttribute('open');
+	        this.maybeHideModal();  // nb. redundant with MutationObserver
+	      }
+	    },
+
+	    /**
+	     * Handles clicks on the fake .backdrop element, redirecting them as if
+	     * they were on the dialog itself.
+	     *
+	     * @param {!Event} e to redirect
+	     */
+	    backdropClick_: function(e) {
+	      if (!this.dialog_.hasAttribute('tabindex')) {
+	        // Clicking on the backdrop should move the implicit cursor, even if dialog cannot be
+	        // focused. Create a fake thing to focus on. If the backdrop was _before_ the dialog, this
+	        // would not be needed - clicks would move the implicit cursor there.
+	        var fake = document.createElement('div');
+	        this.dialog_.insertBefore(fake, this.dialog_.firstChild);
+	        fake.tabIndex = -1;
+	        fake.focus();
+	        this.dialog_.removeChild(fake);
+	      } else {
+	        this.dialog_.focus();
+	      }
+
+	      var redirectedEvent = document.createEvent('MouseEvents');
+	      redirectedEvent.initMouseEvent(e.type, e.bubbles, e.cancelable, window,
+	          e.detail, e.screenX, e.screenY, e.clientX, e.clientY, e.ctrlKey,
+	          e.altKey, e.shiftKey, e.metaKey, e.button, e.relatedTarget);
+	      this.dialog_.dispatchEvent(redirectedEvent);
+	      e.stopPropagation();
+	    },
+
+	    /**
+	     * Focuses on the first focusable element within the dialog. This will always blur the current
+	     * focus, even if nothing within the dialog is found.
+	     */
+	    focus_: function() {
+	      // Find element with `autofocus` attribute, or fall back to the first form/tabindex control.
+	      var target = this.dialog_.querySelector('[autofocus]:not([disabled])');
+	      if (!target && this.dialog_.tabIndex >= 0) {
+	        target = this.dialog_;
+	      }
+	      if (!target) {
+	        // Note that this is 'any focusable area'. This list is probably not exhaustive, but the
+	        // alternative involves stepping through and trying to focus everything.
+	        var opts = ['button', 'input', 'keygen', 'select', 'textarea'];
+	        var query = opts.map(function(el) {
+	          return el + ':not([disabled])';
+	        });
+	        // TODO(samthor): tabindex values that are not numeric are not focusable.
+	        query.push('[tabindex]:not([disabled]):not([tabindex=""])');  // tabindex != "", not disabled
+	        target = this.dialog_.querySelector(query.join(', '));
+	      }
+	      safeBlur(document.activeElement);
+	      target && target.focus();
+	    },
+
+	    /**
+	     * Sets the zIndex for the backdrop and dialog.
+	     *
+	     * @param {number} dialogZ
+	     * @param {number} backdropZ
+	     */
+	    updateZIndex: function(dialogZ, backdropZ) {
+	      if (dialogZ < backdropZ) {
+	        throw new Error('dialogZ should never be < backdropZ');
+	      }
+	      this.dialog_.style.zIndex = dialogZ;
+	      this.backdrop_.style.zIndex = backdropZ;
+	    },
+
+	    /**
+	     * Shows the dialog. If the dialog is already open, this does nothing.
+	     */
+	    show: function() {
+	      if (!this.dialog_.open) {
+	        this.setOpen(true);
+	        this.focus_();
+	      }
+	    },
+
+	    /**
+	     * Show this dialog modally.
+	     */
+	    showModal: function() {
+	      if (this.dialog_.hasAttribute('open')) {
+	        throw new Error('Failed to execute \'showModal\' on dialog: The element is already open, and therefore cannot be opened modally.');
+	      }
+	      if (!document.body.contains(this.dialog_)) {
+	        throw new Error('Failed to execute \'showModal\' on dialog: The element is not in a Document.');
+	      }
+	      if (!dialogPolyfill.dm.pushDialog(this)) {
+	        throw new Error('Failed to execute \'showModal\' on dialog: There are too many open modal dialogs.');
+	      }
+
+	      if (createsStackingContext(this.dialog_.parentElement)) {
+	        console.warn('A dialog is being shown inside a stacking context. ' +
+	            'This may cause it to be unusable. For more information, see this link: ' +
+	            'https://github.com/GoogleChrome/dialog-polyfill/#stacking-context');
+	      }
+
+	      this.setOpen(true);
+	      this.openAsModal_ = true;
+
+	      // Optionally center vertically, relative to the current viewport.
+	      if (dialogPolyfill.needsCentering(this.dialog_)) {
+	        dialogPolyfill.reposition(this.dialog_);
+	        this.replacedStyleTop_ = true;
+	      } else {
+	        this.replacedStyleTop_ = false;
+	      }
+
+	      // Insert backdrop.
+	      this.dialog_.parentNode.insertBefore(this.backdrop_, this.dialog_.nextSibling);
+
+	      // Focus on whatever inside the dialog.
+	      this.focus_();
+	    },
+
+	    /**
+	     * Closes this HTMLDialogElement. This is optional vs clearing the open
+	     * attribute, however this fires a 'close' event.
+	     *
+	     * @param {string=} opt_returnValue to use as the returnValue
+	     */
+	    close: function(opt_returnValue) {
+	      if (!this.dialog_.hasAttribute('open')) {
+	        throw new Error('Failed to execute \'close\' on dialog: The element does not have an \'open\' attribute, and therefore cannot be closed.');
+	      }
+	      this.setOpen(false);
+
+	      // Leave returnValue untouched in case it was set directly on the element
+	      if (opt_returnValue !== undefined) {
+	        this.dialog_.returnValue = opt_returnValue;
+	      }
+
+	      // Triggering "close" event for any attached listeners on the <dialog>.
+	      var closeEvent = new supportCustomEvent('close', {
+	        bubbles: false,
+	        cancelable: false
+	      });
+	      this.dialog_.dispatchEvent(closeEvent);
+	    }
+
+	  };
+
+	  var dialogPolyfill = {};
+
+	  dialogPolyfill.reposition = function(element) {
+	    var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+	    var topValue = scrollTop + (window.innerHeight - element.offsetHeight) / 2;
+	    element.style.top = Math.max(scrollTop, topValue) + 'px';
+	  };
+
+	  dialogPolyfill.isInlinePositionSetByStylesheet = function(element) {
+	    for (var i = 0; i < document.styleSheets.length; ++i) {
+	      var styleSheet = document.styleSheets[i];
+	      var cssRules = null;
+	      // Some browsers throw on cssRules.
+	      try {
+	        cssRules = styleSheet.cssRules;
+	      } catch (e) {}
+	      if (!cssRules) { continue; }
+	      for (var j = 0; j < cssRules.length; ++j) {
+	        var rule = cssRules[j];
+	        var selectedNodes = null;
+	        // Ignore errors on invalid selector texts.
+	        try {
+	          selectedNodes = document.querySelectorAll(rule.selectorText);
+	        } catch(e) {}
+	        if (!selectedNodes || !inNodeList(selectedNodes, element)) {
+	          continue;
+	        }
+	        var cssTop = rule.style.getPropertyValue('top');
+	        var cssBottom = rule.style.getPropertyValue('bottom');
+	        if ((cssTop && cssTop !== 'auto') || (cssBottom && cssBottom !== 'auto')) {
+	          return true;
+	        }
+	      }
+	    }
+	    return false;
+	  };
+
+	  dialogPolyfill.needsCentering = function(dialog) {
+	    var computedStyle = window.getComputedStyle(dialog);
+	    if (computedStyle.position !== 'absolute') {
+	      return false;
+	    }
+
+	    // We must determine whether the top/bottom specified value is non-auto.  In
+	    // WebKit/Blink, checking computedStyle.top == 'auto' is sufficient, but
+	    // Firefox returns the used value. So we do this crazy thing instead: check
+	    // the inline style and then go through CSS rules.
+	    if ((dialog.style.top !== 'auto' && dialog.style.top !== '') ||
+	        (dialog.style.bottom !== 'auto' && dialog.style.bottom !== '')) {
+	      return false;
+	    }
+	    return !dialogPolyfill.isInlinePositionSetByStylesheet(dialog);
+	  };
+
+	  /**
+	   * @param {!Element} element to force upgrade
+	   */
+	  dialogPolyfill.forceRegisterDialog = function(element) {
+	    if (window.HTMLDialogElement || element.showModal) {
+	      console.warn('This browser already supports <dialog>, the polyfill ' +
+	          'may not work correctly', element);
+	    }
+	    if (element.localName !== 'dialog') {
+	      throw new Error('Failed to register dialog: The element is not a dialog.');
+	    }
+	    new dialogPolyfillInfo(/** @type {!HTMLDialogElement} */ (element));
+	  };
+
+	  /**
+	   * @param {!Element} element to upgrade, if necessary
+	   */
+	  dialogPolyfill.registerDialog = function(element) {
+	    if (!element.showModal) {
+	      dialogPolyfill.forceRegisterDialog(element);
+	    }
+	  };
+
+	  /**
+	   * @constructor
+	   */
+	  dialogPolyfill.DialogManager = function() {
+	    /** @type {!Array<!dialogPolyfillInfo>} */
+	    this.pendingDialogStack = [];
+
+	    var checkDOM = this.checkDOM_.bind(this);
+
+	    // The overlay is used to simulate how a modal dialog blocks the document.
+	    // The blocking dialog is positioned on top of the overlay, and the rest of
+	    // the dialogs on the pending dialog stack are positioned below it. In the
+	    // actual implementation, the modal dialog stacking is controlled by the
+	    // top layer, where z-index has no effect.
+	    this.overlay = document.createElement('div');
+	    this.overlay.className = '_dialog_overlay';
+	    this.overlay.addEventListener('click', function(e) {
+	      this.forwardTab_ = undefined;
+	      e.stopPropagation();
+	      checkDOM([]);  // sanity-check DOM
+	    }.bind(this));
+
+	    this.handleKey_ = this.handleKey_.bind(this);
+	    this.handleFocus_ = this.handleFocus_.bind(this);
+
+	    this.zIndexLow_ = 100000;
+	    this.zIndexHigh_ = 100000 + 150;
+
+	    this.forwardTab_ = undefined;
+
+	    if ('MutationObserver' in window) {
+	      this.mo_ = new MutationObserver(function(records) {
+	        var removed = [];
+	        records.forEach(function(rec) {
+	          for (var i = 0, c; c = rec.removedNodes[i]; ++i) {
+	            if (!(c instanceof Element)) {
+	              continue;
+	            } else if (c.localName === 'dialog') {
+	              removed.push(c);
+	            }
+	            removed = removed.concat(c.querySelectorAll('dialog'));
+	          }
+	        });
+	        removed.length && checkDOM(removed);
+	      });
+	    }
+	  };
+
+	  /**
+	   * Called on the first modal dialog being shown. Adds the overlay and related
+	   * handlers.
+	   */
+	  dialogPolyfill.DialogManager.prototype.blockDocument = function() {
+	    document.documentElement.addEventListener('focus', this.handleFocus_, true);
+	    document.addEventListener('keydown', this.handleKey_);
+	    this.mo_ && this.mo_.observe(document, {childList: true, subtree: true});
+	  };
+
+	  /**
+	   * Called on the first modal dialog being removed, i.e., when no more modal
+	   * dialogs are visible.
+	   */
+	  dialogPolyfill.DialogManager.prototype.unblockDocument = function() {
+	    document.documentElement.removeEventListener('focus', this.handleFocus_, true);
+	    document.removeEventListener('keydown', this.handleKey_);
+	    this.mo_ && this.mo_.disconnect();
+	  };
+
+	  /**
+	   * Updates the stacking of all known dialogs.
+	   */
+	  dialogPolyfill.DialogManager.prototype.updateStacking = function() {
+	    var zIndex = this.zIndexHigh_;
+
+	    for (var i = 0, dpi; dpi = this.pendingDialogStack[i]; ++i) {
+	      dpi.updateZIndex(--zIndex, --zIndex);
+	      if (i === 0) {
+	        this.overlay.style.zIndex = --zIndex;
+	      }
+	    }
+
+	    // Make the overlay a sibling of the dialog itself.
+	    var last = this.pendingDialogStack[0];
+	    if (last) {
+	      var p = last.dialog.parentNode || document.body;
+	      p.appendChild(this.overlay);
+	    } else if (this.overlay.parentNode) {
+	      this.overlay.parentNode.removeChild(this.overlay);
+	    }
+	  };
+
+	  /**
+	   * @param {Element} candidate to check if contained or is the top-most modal dialog
+	   * @return {boolean} whether candidate is contained in top dialog
+	   */
+	  dialogPolyfill.DialogManager.prototype.containedByTopDialog_ = function(candidate) {
+	    while (candidate = findNearestDialog(candidate)) {
+	      for (var i = 0, dpi; dpi = this.pendingDialogStack[i]; ++i) {
+	        if (dpi.dialog === candidate) {
+	          return i === 0;  // only valid if top-most
+	        }
+	      }
+	      candidate = candidate.parentElement;
+	    }
+	    return false;
+	  };
+
+	  dialogPolyfill.DialogManager.prototype.handleFocus_ = function(event) {
+	    if (this.containedByTopDialog_(event.target)) { return; }
+
+	    event.preventDefault();
+	    event.stopPropagation();
+	    safeBlur(/** @type {Element} */ (event.target));
+
+	    if (this.forwardTab_ === undefined) { return; }  // move focus only from a tab key
+
+	    var dpi = this.pendingDialogStack[0];
+	    var dialog = dpi.dialog;
+	    var position = dialog.compareDocumentPosition(event.target);
+	    if (position & Node.DOCUMENT_POSITION_PRECEDING) {
+	      if (this.forwardTab_) {  // forward
+	        dpi.focus_();
+	      } else {  // backwards
+	        document.documentElement.focus();
+	      }
+	    } else {
+	      // TODO: Focus after the dialog, is ignored.
+	    }
+
+	    return false;
+	  };
+
+	  dialogPolyfill.DialogManager.prototype.handleKey_ = function(event) {
+	    this.forwardTab_ = undefined;
+	    if (event.keyCode === 27) {
+	      event.preventDefault();
+	      event.stopPropagation();
+	      var cancelEvent = new supportCustomEvent('cancel', {
+	        bubbles: false,
+	        cancelable: true
+	      });
+	      var dpi = this.pendingDialogStack[0];
+	      if (dpi && dpi.dialog.dispatchEvent(cancelEvent)) {
+	        dpi.dialog.close();
+	      }
+	    } else if (event.keyCode === 9) {
+	      this.forwardTab_ = !event.shiftKey;
+	    }
+	  };
+
+	  /**
+	   * Finds and downgrades any known modal dialogs that are no longer displayed. Dialogs that are
+	   * removed and immediately readded don't stay modal, they become normal.
+	   *
+	   * @param {!Array<!HTMLDialogElement>} removed that have definitely been removed
+	   */
+	  dialogPolyfill.DialogManager.prototype.checkDOM_ = function(removed) {
+	    // This operates on a clone because it may cause it to change. Each change also calls
+	    // updateStacking, which only actually needs to happen once. But who removes many modal dialogs
+	    // at a time?!
+	    var clone = this.pendingDialogStack.slice();
+	    clone.forEach(function(dpi) {
+	      if (removed.indexOf(dpi.dialog) !== -1) {
+	        dpi.downgradeModal();
+	      } else {
+	        dpi.maybeHideModal();
+	      }
+	    });
+	  };
+
+	  /**
+	   * @param {!dialogPolyfillInfo} dpi
+	   * @return {boolean} whether the dialog was allowed
+	   */
+	  dialogPolyfill.DialogManager.prototype.pushDialog = function(dpi) {
+	    var allowed = (this.zIndexHigh_ - this.zIndexLow_) / 2 - 1;
+	    if (this.pendingDialogStack.length >= allowed) {
+	      return false;
+	    }
+	    if (this.pendingDialogStack.unshift(dpi) === 1) {
+	      this.blockDocument();
+	    }
+	    this.updateStacking();
+	    return true;
+	  };
+
+	  /**
+	   * @param {!dialogPolyfillInfo} dpi
+	   */
+	  dialogPolyfill.DialogManager.prototype.removeDialog = function(dpi) {
+	    var index = this.pendingDialogStack.indexOf(dpi);
+	    if (index === -1) { return; }
+
+	    this.pendingDialogStack.splice(index, 1);
+	    if (this.pendingDialogStack.length === 0) {
+	      this.unblockDocument();
+	    }
+	    this.updateStacking();
+	  };
+
+	  dialogPolyfill.dm = new dialogPolyfill.DialogManager();
+	  dialogPolyfill.formSubmitter = null;
+	  dialogPolyfill.useValue = null;
+
+	  /**
+	   * Installs global handlers, such as click listers and native method overrides. These are needed
+	   * even if a no dialog is registered, as they deal with <form method="dialog">.
+	   */
+	  if (window.HTMLDialogElement === undefined) {
+
+	    /**
+	     * If HTMLFormElement translates method="DIALOG" into 'get', then replace the descriptor with
+	     * one that returns the correct value.
+	     */
+	    var testForm = document.createElement('form');
+	    testForm.setAttribute('method', 'dialog');
+	    if (testForm.method !== 'dialog') {
+	      var methodDescriptor = Object.getOwnPropertyDescriptor(HTMLFormElement.prototype, 'method');
+	      if (methodDescriptor) {
+	        // TODO: older iOS and older PhantomJS fail to return the descriptor here
+	        var realGet = methodDescriptor.get;
+	        methodDescriptor.get = function() {
+	          if (isFormMethodDialog(this)) {
+	            return 'dialog';
+	          }
+	          return realGet.call(this);
+	        };
+	        var realSet = methodDescriptor.set;
+	        methodDescriptor.set = function(v) {
+	          if (typeof v === 'string' && v.toLowerCase() === 'dialog') {
+	            return this.setAttribute('method', v);
+	          }
+	          return realSet.call(this, v);
+	        };
+	        Object.defineProperty(HTMLFormElement.prototype, 'method', methodDescriptor);
+	      }
+	    }
+
+	    /**
+	     * Global 'click' handler, to capture the <input type="submit"> or <button> element which has
+	     * submitted a <form method="dialog">. Needed as Safari and others don't report this inside
+	     * document.activeElement.
+	     */
+	    document.addEventListener('click', function(ev) {
+	      dialogPolyfill.formSubmitter = null;
+	      dialogPolyfill.useValue = null;
+	      if (ev.defaultPrevented) { return; }  // e.g. a submit which prevents default submission
+
+	      var target = /** @type {Element} */ (ev.target);
+	      if (!target || !isFormMethodDialog(target.form)) { return; }
+
+	      var valid = (target.type === 'submit' && ['button', 'input'].indexOf(target.localName) > -1);
+	      if (!valid) {
+	        if (!(target.localName === 'input' && target.type === 'image')) { return; }
+	        // this is a <input type="image">, which can submit forms
+	        dialogPolyfill.useValue = ev.offsetX + ',' + ev.offsetY;
+	      }
+
+	      var dialog = findNearestDialog(target);
+	      if (!dialog) { return; }
+
+	      dialogPolyfill.formSubmitter = target;
+	    }, false);
+
+	    /**
+	     * Replace the native HTMLFormElement.submit() method, as it won't fire the
+	     * submit event and give us a chance to respond.
+	     */
+	    var nativeFormSubmit = HTMLFormElement.prototype.submit;
+	    function replacementFormSubmit() {
+	      if (!isFormMethodDialog(this)) {
+	        return nativeFormSubmit.call(this);
+	      }
+	      var dialog = findNearestDialog(this);
+	      dialog && dialog.close();
+	    }
+	    HTMLFormElement.prototype.submit = replacementFormSubmit;
+
+	    /**
+	     * Global form 'dialog' method handler. Closes a dialog correctly on submit
+	     * and possibly sets its return value.
+	     */
+	    document.addEventListener('submit', function(ev) {
+	      var form = /** @type {HTMLFormElement} */ (ev.target);
+	      if (!isFormMethodDialog(form)) { return; }
+	      ev.preventDefault();
+
+	      var dialog = findNearestDialog(form);
+	      if (!dialog) { return; }
+
+	      // Forms can only be submitted via .submit() or a click (?), but anyway: sanity-check that
+	      // the submitter is correct before using its value as .returnValue.
+	      var s = dialogPolyfill.formSubmitter;
+	      if (s && s.form === form) {
+	        dialog.close(dialogPolyfill.useValue || s.value);
+	      } else {
+	        dialog.close();
+	      }
+	      dialogPolyfill.formSubmitter = null;
+	    }, true);
+	  }
+
+	  dialogPolyfill['forceRegisterDialog'] = dialogPolyfill.forceRegisterDialog;
+	  dialogPolyfill['registerDialog'] = dialogPolyfill.registerDialog;
+
+	  if ("function" === 'function' && 'amd' in __webpack_require__(193)) {
+	    // AMD support
+	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function() { return dialogPolyfill; }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if (typeof module === 'object' && typeof module['exports'] === 'object') {
+	    // CommonJS support
+	    module['exports'] = dialogPolyfill;
+	  } else {
+	    // all others
+	    window['dialogPolyfill'] = dialogPolyfill;
+	  }
+	})();
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(192)(module)))
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports) {
+
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports) {
+
+	module.exports = function() { throw new Error("define cannot be used indirect"); };
+
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(195);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(187)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../css-loader/index.js!./react-dialog-native.css", function() {
+				var newContent = require("!!../../css-loader/index.js!./react-dialog-native.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(186)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".Dialog {\n  border: 1px solid rgba(0, 0, 0, .3);\n  border-radius: 6px;\n  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, .3);\n          box-shadow: 0 3px 7px rgba(0, 0, 0, .3);\n}\n\n.Dialog::-webkit-backdrop {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, .8);\n}\n\n.Dialog::backdrop {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, .8);\n}\n\n.Dialog + .backdrop {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, .8);\n}\n", ""]);
+
+	// exports
+
 
 /***/ })
 /******/ ]);

@@ -17,8 +17,12 @@
   },
   "homepage": "https://github.com/lonelyclick/lonelyclick.github.io#readme",
   "dependencies": {
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0",
+    "dialog-polyfill": "^0.4.9",
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1",
+    "react-dialog-native": "^1.0.0",
+    "react-dom": "^15.6.1",
+    "react-loading-bar": "0.0.5",
     "shallowequal": "^0.2.2"
   },
   "devDependencies": {
