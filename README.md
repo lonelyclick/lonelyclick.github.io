@@ -1,0 +1,2 @@
+# lonelyclick.github.io
+blog
